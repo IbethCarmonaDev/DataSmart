@@ -1,0 +1,142 @@
+[
+  {
+    "ContainingType": "DataSmart.API.Controllers.FinanceController",
+    "Method": "GetAniosDisponibles",
+    "RelativePath": "api/Finance/anios-disponibles",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DataSmart.API.Controllers.FinanceController",
+    "Method": "GetDatosProcesados",
+    "RelativePath": "api/Finance/datos-procesados",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DataSmart.API.Controllers.FinanceController",
+    "Method": "DebugDatos",
+    "RelativePath": "api/Finance/debug-datos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DataSmart.API.Controllers.FinanceController",
+    "Method": "GetEstadoResultados",
+    "RelativePath": "api/Finance/estado-resultados",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "a\u00F1o",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "mes",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "tipo",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DataSmart.API.Controllers.FinanceController",
+    "Method": "GetEstadoResultadosAnual",
+    "RelativePath": "api/Finance/estado-resultados-anual",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "a\u00F1o",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DataSmart.API.Controllers.FinanceController",
+    "Method": "GetKPIsFinancieros",
+    "RelativePath": "api/Finance/kpis-financieros",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "a\u00F1o",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DataSmart.API.Controllers.FinanceController",
+    "Method": "UploadExcel",
+    "RelativePath": "api/Finance/upload",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ArchivoExcel",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DataSmart.API.Controllers.TestController",
+    "Method": "Get",
+    "RelativePath": "api/Test",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DataSmart.API.Controllers.TestController",
+    "Method": "TestDatabaseConnection",
+    "RelativePath": "api/Test/connection",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DataSmart.API.Controllers.TestController",
+    "Method": "TestUpload",
+    "RelativePath": "api/Test/upload",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

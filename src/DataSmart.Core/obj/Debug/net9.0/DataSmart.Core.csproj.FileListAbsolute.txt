@@ -1,0 +1,12 @@
+D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmart\src\DataSmart.Core\bin\Debug\net9.0\DataSmart.Core.deps.json
+D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmart\src\DataSmart.Core\bin\Debug\net9.0\DataSmart.Core.dll
+D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmart\src\DataSmart.Core\bin\Debug\net9.0\DataSmart.Core.pdb
+D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmart\src\DataSmart.Core\obj\Debug\net9.0\DataSmart.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmart\src\DataSmart.Core\obj\Debug\net9.0\DataSmart.Core.AssemblyInfoInputs.cache
+D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmart\src\DataSmart.Core\obj\Debug\net9.0\DataSmart.Core.AssemblyInfo.cs
+D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmart\src\DataSmart.Core\obj\Debug\net9.0\DataSmart.Core.csproj.CoreCompileInputs.cache
+D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmart\src\DataSmart.Core\obj\Debug\net9.0\DataSmart.Core.dll
+D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmart\src\DataSmart.Core\obj\Debug\net9.0\refint\DataSmart.Core.dll
+D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmart\src\DataSmart.Core\obj\Debug\net9.0\DataSmart.Core.pdb
+D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmart\src\DataSmart.Core\obj\Debug\net9.0\ref\DataSmart.Core.dll
+D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmart\src\DataSmart.Core\obj\Debug\net9.0\DataSmart.Core.csproj.AssemblyReference.cache

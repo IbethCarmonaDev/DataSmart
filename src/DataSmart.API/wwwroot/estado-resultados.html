@@ -1,0 +1,753 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estado de Resultados - DataSmart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ESTILOS GENERALES (los mismos que index.html) */
+        :root {
+            --primary-color: #3498db;
+            --primary-dark: #2980b9;
+            --secondary-color: #2ecc71;
+            --secondary-dark: #27ae60;
+            --sidebar-width: 250px;
+            --header-height: 70px;
+            --text-color: #2c3e50;
+            --text-light: #7f8c8d;
+            --background: #f5f7fa;
+            --card-bg: #ffffff;
+            --success-color: #27ae60;
+            --error-color: #c0392b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (copiado de index.html) */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+            .logo h1 {
+                font-size: 24px;
+                margin: 0;
+            }
+
+            .logo span {
+                color: #2ecc71;
+            }
+
+        .nav-menu {
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+            .nav-item:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+                border-left: 4px solid var(--secondary-color);
+            }
+
+            .nav-item.active {
+                background-color: var(--primary-dark);
+                border-left: 4px solid var(--secondary-color);
+            }
+
+            .nav-item i {
+                margin-right: 15px;
+                width: 20px;
+                text-align: center;
+                font-size: 18px;
+            }
+
+        /* Main content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .header {
+            background-color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: var(--header-height);
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .filtros {
+            display: flex;
+            gap: 10px;
+        }
+
+            .filtros select {
+                padding: 8px 12px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                background-color: white;
+            }
+
+        .content-area {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            min-height: calc(100vh - 150px);
+        }
+
+        /* ESTILOS ESPECÍFICOS PARA ESTADO DE RESULTADOS */
+        .error-message {
+            background-color: #ffebee;
+            color: #c0392b;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #c0392b;
+            margin: 20px 0;
+        }
+
+            .error-message button {
+                background-color: #c0392b;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 15px;
+            }
+
+        .tabla-financiera {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+            .tabla-financiera th,
+            .tabla-financiera td {
+                padding: 12px 15px;
+                text-align: left;
+                border-bottom: 1px solid #e0e0e0;
+            }
+
+            .tabla-financiera th {
+                background-color: var(--primary-color);
+                color: white;
+                font-weight: 600;
+            }
+
+            .tabla-financiera tr:hover {
+                background-color: #f5f5f5;
+            }
+
+            .tabla-financiera tr:last-child td {
+                border-bottom: none;
+            }
+
+        .resumen {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+            .resumen h4 {
+                color: var(--text-color);
+                margin-bottom: 10px;
+            }
+
+            .resumen pre {
+                background-color: white;
+                padding: 15px;
+                border-radius: 5px;
+                overflow-x: auto;
+                border: 1px solid #ddd;
+            }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+        }
+
+            .loading .spinner {
+                border: 4px solid #f3f3f3;
+                border-top: 4px solid var(--primary-color);
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                animation: spin 1s linear infinite;
+                margin: 0 auto 20px;
+            }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .sidebar {
+                width: 0;
+                overflow: hidden;
+            }
+
+            .header {
+                flex-direction: column;
+                height: auto;
+                gap: 15px;
+            }
+
+            .filtros {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .tabla-financiera {
+                font-size: 14px;
+            }
+
+                .tabla-financiera th,
+                .tabla-financiera td {
+                    padding: 8px 10px;
+                }
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle" id="menu-toggle" style="display: none;">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="app-container">
+        <!-- Sidebar (copiado de index.html) -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <h1 class="logo-text">Data<span>Smart</span></h1>
+            </div>
+
+            <div class="nav-menu">
+                <div class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span class="nav-text">Inicio</span>
+                </div>
+                <div class="nav-item active">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="nav-text">Estado de Resultados</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-balance-scale"></i>
+                    <span class="nav-text">Balance General</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-key"></i>
+                    <span class="nav-text">KPIs Financieros</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-coins"></i>
+                    <span class="nav-text">Presupuesto</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span class="nav-text">Flujo de Caja</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span class="nav-text">Configuración</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="main-content">
+            <div class="header">
+                <h1 class="page-title">Estado de Resultados</h1>
+                <!-- Controles de filtro -->
+                <div class="filtros">
+                    <select id="select-anio">
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                    </select>
+                    <select id="select-periodo">
+                        <option value="anual">Anual</option>
+                        <option value="mensual">Mensual</option>
+                        <option value="trimestral">Trimestral</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <div id="tabla-estado-resultados">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Cargando estado de resultados...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuración inicial
+        document.addEventListener('DOMContentLoaded', function () {
+
+            cargarAniosDisponibles().then(() => {
+                // Configurar eventos para los filtros
+                document.getElementById('select-anio').addEventListener('change', cargarEstadoResultados);
+                document.getElementById('select-periodo').addEventListener('change', cargarEstadoResultados);
+
+                // Cargar datos iniciales
+                cargarEstadoResultados();
+            });
+
+            // Configurar navegación
+            setupNavigation();
+        });
+
+        // Función para cargar el estado de resultados
+        async function cargarEstadoResultados() {
+            try {
+                const anioSelect = document.getElementById('select-anio');
+                const periodoSelect = document.getElementById('select-periodo');
+
+                // ✅ OBTENER valores con fallbacks
+                let anio = anioSelect.value;
+                const periodo = periodoSelect.value || 'anual';
+
+                // ✅ SI no hay año seleccionado, usar el año actual
+                if (!anio) {
+                    anio = new Date().getFullYear().toString();
+                    console.log('Usando año por defecto:', anio);
+                }
+
+                console.log('Parámetros:', { anio, periodo });
+
+                const url = `/api/Finance/estado-resultados?año=${anio}&tipo=${periodo}`;
+                console.log('URL:', url);
+
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Error del servidor:', response.status, errorText);
+                    throw new Error(`Error ${response.status}: ${errorText}`);
+                }
+
+                const data = await response.json();
+                console.log('Datos recibidos:', data);
+                mostrarEstadoResultados(data);
+
+            } catch (error) {
+                console.error('Error cargando estado de resultados:', error);
+                mostrarError('Error cargando datos: ' + error.message);
+            }
+        }
+
+        // Función para mostrar el estado de resultados
+        function mostrarEstadoResultados(datos) {
+            try {
+                console.log('Mostrando estado de resultados:', datos);
+
+                const contenedor = document.getElementById('tabla-estado-resultados');
+
+                if (!datos || typeof datos !== 'object') {
+                    throw new Error('Datos inválidos recibidos');
+                }
+
+                // Determinar la estructura de los datos y mostrar accordingly
+                if (datos.totalesPorGrupo) {
+                    mostrarEstructura1(datos);
+                } else if (datos.lineas && Array.isArray(datos.lineas)) {
+                    mostrarEstructura2(datos);
+                } else if (Array.isArray(datos)) {
+                    mostrarEstructura3(datos);
+                } else if (datos.reporte && datos.reporte.lineas) {
+                    mostrarEstructura4(datos);
+                } else {
+                    // Mostrar datos en crudo para debugging
+                    contenedor.innerHTML = `
+                            <h3>Estructura de datos no reconocida</h3>
+                            <p>Los datos recibidos tienen una estructura no esperada:</p>
+                            <div class="resumen">
+                                <pre>${JSON.stringify(datos, null, 2)}</pre>
+                            </div>
+                            <button onclick="cargarEstadoResultados()">Reintentar</button>
+                        `;
+                }
+
+            } catch (error) {
+                console.error('Error mostrando estado de resultados:', error);
+                mostrarError('Error mostrando datos: ' + error.message);
+            }
+        }
+
+        // Diferentes estructuras de datos
+        function mostrarEstructura1(datos) {
+            const contenedor = document.getElementById('tabla-estado-resultados');
+
+            contenedor.innerHTML = `
+                    <h3>Estado de Resultados - ${datos.periodo || 'Periodo'}</h3>
+                    <div class="resumen">
+                        <h4>Totales por Grupo</h4>
+                        <pre>${JSON.stringify(datos.totalesPorGrupo, null, 2)}</pre>
+
+                        ${datos.kpis ? `<h4>KPIs</h4><pre>${JSON.stringify(datos.kpis, null, 2)}</pre>` : ''}
+                    </div>
+                `;
+        }
+
+
+        async function cargarAniosDisponibles() {
+            try {
+                console.log('Cargando años disponibles...');
+
+                const response = await fetch('/api/Finance/anios-disponibles');
+
+                if (!response.ok) {
+                    throw new Error(`Error ${response.status} obteniendo años`);
+                }
+
+                const anios = await response.json();
+                console.log('Años disponibles:', anios);
+
+                const selectAnio = document.getElementById('select-anio');
+
+                // Limpiar options existentes
+                selectAnio.innerHTML = '';
+
+                // Agregar años dinámicos desde la base de datos
+                anios.forEach(anio => {
+                    const option = document.createElement('option');
+                    option.value = anio;
+                    option.textContent = anio;
+                    selectAnio.appendChild(option);
+                });
+
+                // Seleccionar el año más reciente por defecto
+                if (anios.length > 0) {
+                    selectAnio.value = anios[0];
+                    console.log('Año seleccionado por defecto:', anios[0]);
+                }
+
+            } catch (error) {
+                console.error('Error cargando años disponibles:', error);
+                // Fallback: agregar años por defecto si hay error
+                const selectAnio = document.getElementById('select-anio');
+                selectAnio.innerHTML = `
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+        `;
+            }
+        }
+
+
+        function mostrarEstructura2(datos) {
+            const contenedor = document.getElementById('tabla-estado-resultados');
+
+            let html = `
+                    <h3>Estado de Resultados - ${datos.ano || ''} ${datos.mes ? 'Mes ' + datos.mes : ''}</h3>
+                    <table class="tabla-financiera">
+                        <thead>
+                            <tr>
+                                <th>Descripción</th>
+                                <th>Total</th>
+                                <th>Tipo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+            datos.lineas.forEach(linea => {
+                html += `
+                        <tr>
+                            <td>${linea.descripcion || linea.Descripcion || ''}</td>
+                            <td>${formatearMoneda(linea.total || linea.Total || 0)}</td>
+                            <td>${linea.tipo || linea.Tipo || ''}</td>
+                        </tr>
+                    `;
+            });
+
+            html += `
+                        </tbody>
+                    </table>
+                `;
+
+            contenedor.innerHTML = html;
+        }
+
+        function mostrarEstructura3(datosArray) {
+            const contenedor = document.getElementById('tabla-estado-resultados');
+
+            let html = `
+                    <h3>Estado de Resultados</h3>
+                    <table class="tabla-financiera">
+                        <thead>
+                            <tr>
+                                <th>Grupo</th>
+                                <th>Cuenta</th>
+                                <th>Mes</th>
+                                <th>Año</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+            datosArray.forEach(item => {
+                html += `
+                        <tr>
+                            <td>${item.grupo || item.Grupo || ''}</td>
+                            <td>${item.cuenta || item.Cuenta || ''}</td>
+                            <td>${item.mes || item.Mes || ''}</td>
+                            <td>${item.ano || item.Ano || ''}</td>
+                            <td>${formatearMoneda(item.total || item.Total || 0)}</td>
+                        </tr>
+                    `;
+            });
+
+            html += `
+                        </tbody>
+                    </table>
+                `;
+
+            contenedor.innerHTML = html;
+        }
+
+        function mostrarEstructura4(datos) {
+            mostrarEstructura2(datos.reporte);
+        }
+
+        // Función para mostrar errores
+        function mostrarError(mensaje) {
+            const contenedor = document.getElementById('tabla-estado-resultados');
+            contenedor.innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <h3>Error</h3>
+                        <p>${mensaje}</p>
+                        <button onclick="cargarEstadoResultados()">Reintentar</button>
+                    </div>
+                `;
+        }
+
+        // Función para mostrar loading
+        function mostrarLoading() {
+            const contenedor = document.getElementById('tabla-estado-resultados');
+            contenedor.innerHTML = `
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Cargando estado de resultados...</p>
+                    </div>
+                `;
+        }
+
+        // Función para formatear moneda
+        function formatearMoneda(valor) {
+            return new Intl.NumberFormat('es-CO', {
+                style: 'currency',
+                currency: 'COP',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(valor);
+        }
+
+        // Configurar navegación
+        function setupNavigation() {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function () {
+                    const pageTitle = this.querySelector('.nav-text').textContent;
+
+                    if (pageTitle === 'Inicio') {
+                        window.location.href = '/index.html';
+                    }
+                    // Otras navegaciones...
+                });
+            });
+        }
+
+
+        function mostrarEstadoResultadosAnual(datos) {
+            const contenedor = document.getElementById('tabla-estado-resultados');
+
+            let html = `
+        <h3>Estado de Resultados Anual - ${datos.ano}</h3>
+        <div class="controles">
+            <button onclick="expandirTodo()">Expandir Todo</button>
+            <button onclick="colapsarTodo()">Colapsar Todo</button>
+        </div>
+        <table class="tabla-estado-resultados">
+            <thead>
+                <tr>
+                    <th>Descripción</th>
+                    ${Array.from({ length: 12 }, (_, i) =>
+                `<th>${obtenerNombreMes(i + 1)}</th>`).join('')}
+                    <th>Acumulado Anual</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+            // Generar filas para cada grupo
+            datos.estructura.forEach(grupo => {
+                html += generarFilaGrupo(grupo, 0);
+            });
+
+            // Fila de totales
+            html += `
+                <tr class="total-anual">
+                    <td><strong>TOTAL ANUAL</strong></td>
+                    ${Array.from({ length: 12 }, (_, i) =>
+                `<td>${formatearMoneda(datos.totalesPorMes[i + 1] || 0)}</td>`).join('')}
+                    <td><strong>${formatearMoneda(datos.totalAnual)}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    `;
+
+            contenedor.innerHTML = html;
+        }
+
+        function generarFilaGrupo(grupo, nivel) {
+            let html = `
+        <tr class="grupo-nivel-${nivel}">
+            <td>
+                <span class="expand-btn" onclick="toggleExpand('${grupo.codigo}')">
+                    ${grupo.expandido ? '▼' : '►'}
+                </span>
+                <strong>${grupo.nombre}</strong>
+            </td>
+            ${Array.from({ length: 12 }, (_, i) =>
+                `<td>${formatearMoneda(grupo.valoresPorMes[i + 1] || 0)}</td>`).join('')}
+            <td><strong>${formatearMoneda(grupo.total)}</strong></td>
+        </tr>
+    `;
+
+            if (grupo.expandido) {
+                grupo.detalles.forEach(nivel => {
+                    html += generarFilaNivel(nivel, nivel + 1);
+                });
+            }
+
+            return html;
+        }
+
+        function generarFilaNivel(nivel, nivelDepth) {
+            let html = `
+        <tr class="nivel-${nivelDepth}">
+            <td>
+                <span class="expand-btn" onclick="toggleExpand('${nivel.codigo}')">
+                    ${nivel.expandido ? '▼' : '►'}
+                </span>
+                ${nivel.nombre}
+            </td>
+            ${Array.from({ length: 12 }, (_, i) =>
+                `<td>${formatearMoneda(nivel.valoresPorMes[i + 1] || 0)}</td>`).join('')}
+            <td>${formatearMoneda(nivel.total)}</td>
+        </tr>
+    `;
+
+            if (nivel.expandido) {
+                nivel.detalles.forEach(cuenta => {
+                    html += generarFilaCuenta(cuenta, nivelDepth + 1);
+                });
+            }
+
+            return html;
+        }
+
+        function generarFilaCuenta(cuenta, nivelDepth) {
+            return `
+        <tr class="cuenta-nivel-${nivelDepth}">
+            <td>${cuenta.codigo} - ${cuenta.nombre}</td>
+            ${Array.from({ length: 12 }, (_, i) =>
+                `<td>${formatearMoneda(cuenta.valoresPorMes[i + 1] || 0)}</td>`).join('')}
+            <td>${formatearMoneda(cuenta.total)}</td>
+        </tr>
+    `;
+        }
+
+        // Funciones auxiliares
+        function obtenerNombreMes(mes) {
+            const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+                'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            return meses[mes - 1] || '';
+        }
+
+        function formatearMoneda(valor) {
+            return new Intl.NumberFormat('es-CO', {
+                style: 'currency',
+                currency: 'COP',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(valor);
+        }
+
+        function toggleExpand(codigo) {
+            // Lógica para expandir/colapsar (implementar según necesidad)
+            console.log('Toggle expand:', codigo);
+        }
+
+
+    </script>
+</body>
+</html>

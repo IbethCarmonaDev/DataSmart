@@ -1,0 +1,4 @@
+D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmart\src\DataSmart.API\wwwroot\index.html
+D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmart\src\DataSmart.API\wwwroot\estado-resultados.html
+wwwroot\estado-resultados.html
+wwwroot\index.html

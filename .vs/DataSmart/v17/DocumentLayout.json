@@ -1,0 +1,491 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3BA0FCC5-3096-436C-98BE-3541FE4AEDF5}|src\\DataSmart.API\\DataSmart.API.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.api\\wwwroot\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3BA0FCC5-3096-436C-98BE-3541FE4AEDF5}|src\\DataSmart.API\\DataSmart.API.csproj|solutionrelative:src\\datasmart.api\\wwwroot\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3BA0FCC5-3096-436C-98BE-3541FE4AEDF5}|src\\DataSmart.API\\DataSmart.API.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.api\\wwwroot\\estado-resultados.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3BA0FCC5-3096-436C-98BE-3541FE4AEDF5}|src\\DataSmart.API\\DataSmart.API.csproj|solutionrelative:src\\datasmart.api\\wwwroot\\estado-resultados.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.core\\services\\excelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|solutionrelative:src\\datasmart.core\\services\\excelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3BA0FCC5-3096-436C-98BE-3541FE4AEDF5}|src\\DataSmart.API\\DataSmart.API.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.api\\controllers\\financecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3BA0FCC5-3096-436C-98BE-3541FE4AEDF5}|src\\DataSmart.API\\DataSmart.API.csproj|solutionrelative:src\\datasmart.api\\controllers\\financecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3BA0FCC5-3096-436C-98BE-3541FE4AEDF5}|src\\DataSmart.API\\DataSmart.API.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{3BA0FCC5-3096-436C-98BE-3541FE4AEDF5}|src\\DataSmart.API\\DataSmart.API.csproj|solutionrelative:src\\datasmart.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.core\\interfaces\\iexceldataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|solutionrelative:src\\datasmart.core\\interfaces\\iexceldataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A697DA0F-7E92-413D-B2A3-33CF9445E368}|src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.infrastructure\\services\\exceldataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A697DA0F-7E92-413D-B2A3-33CF9445E368}|src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj|solutionrelative:src\\datasmart.infrastructure\\services\\exceldataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.core\\interfaces\\iexcelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|solutionrelative:src\\datasmart.core\\interfaces\\iexcelservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3BA0FCC5-3096-436C-98BE-3541FE4AEDF5}|src\\DataSmart.API\\DataSmart.API.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3BA0FCC5-3096-436C-98BE-3541FE4AEDF5}|src\\DataSmart.API\\DataSmart.API.csproj|solutionrelative:src\\datasmart.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.core\\models\\cuentajerarquica.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|solutionrelative:src\\datasmart.core\\models\\cuentajerarquica.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.core\\models\\niveljerarquico.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|solutionrelative:src\\datasmart.core\\models\\niveljerarquico.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.core\\models\\grupojerarquico.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|solutionrelative:src\\datasmart.core\\models\\grupojerarquico.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.core\\models\\movimientocontable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|solutionrelative:src\\datasmart.core\\models\\movimientocontable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.core\\models\\clasificacioncuenta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|solutionrelative:src\\datasmart.core\\models\\clasificacioncuenta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.core\\models\\financialreport.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|solutionrelative:src\\datasmart.core\\models\\financialreport.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.core\\models\\grupomaestro.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|solutionrelative:src\\datasmart.core\\models\\grupomaestro.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A697DA0F-7E92-413D-B2A3-33CF9445E368}|src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.infrastructure\\datasmartdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A697DA0F-7E92-413D-B2A3-33CF9445E368}|src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj|solutionrelative:src\\datasmart.infrastructure\\datasmartdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A697DA0F-7E92-413D-B2A3-33CF9445E368}|src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.infrastructure\\repositories\\grupomaestrorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A697DA0F-7E92-413D-B2A3-33CF9445E368}|src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj|solutionrelative:src\\datasmart.infrastructure\\repositories\\grupomaestrorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.core\\models\\resultadogrupo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|solutionrelative:src\\datasmart.core\\models\\resultadogrupo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.core\\models\\reporteestadoresultados.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|solutionrelative:src\\datasmart.core\\models\\reporteestadoresultados.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.core\\models\\uploadexcelrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|solutionrelative:src\\datasmart.core\\models\\uploadexcelrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3BA0FCC5-3096-436C-98BE-3541FE4AEDF5}|src\\DataSmart.API\\DataSmart.API.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{3BA0FCC5-3096-436C-98BE-3541FE4AEDF5}|src\\DataSmart.API\\DataSmart.API.csproj|solutionrelative:src\\datasmart.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A697DA0F-7E92-413D-B2A3-33CF9445E368}|src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.infrastructure\\datasmart.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{A697DA0F-7E92-413D-B2A3-33CF9445E368}|src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj|solutionrelative:src\\datasmart.infrastructure\\datasmart.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3BA0FCC5-3096-436C-98BE-3541FE4AEDF5}|src\\DataSmart.API\\DataSmart.API.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.api\\datasmart.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{3BA0FCC5-3096-436C-98BE-3541FE4AEDF5}|src\\DataSmart.API\\DataSmart.API.csproj|solutionrelative:src\\datasmart.api\\datasmart.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3BA0FCC5-3096-436C-98BE-3541FE4AEDF5}|src\\DataSmart.API\\DataSmart.API.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.api\\datasmart.api.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{3BA0FCC5-3096-436C-98BE-3541FE4AEDF5}|src\\DataSmart.API\\DataSmart.API.csproj|solutionrelative:src\\datasmart.api\\datasmart.api.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3BA0FCC5-3096-436C-98BE-3541FE4AEDF5}|src\\DataSmart.API\\DataSmart.API.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.api\\controllers\\testcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3BA0FCC5-3096-436C-98BE-3541FE4AEDF5}|src\\DataSmart.API\\DataSmart.API.csproj|solutionrelative:src\\datasmart.api\\controllers\\testcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.core\\models\\plan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|solutionrelative:src\\datasmart.core\\models\\plan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|d:\\00-onedrive\\onedrive\\00-datasmart express\\visual studio\\datasmart\\src\\datasmart.core\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3941A8C-408D-484F-A9F7-CC5E3FD7579B}|src\\DataSmart.Core\\DataSmart.Core.csproj|solutionrelative:src\\datasmart.core\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ExcelDataService.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Infrastructure\\Services\\ExcelDataService.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.Infrastructure\\Services\\ExcelDataService.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Infrastructure\\Services\\ExcelDataService.cs",
+              "RelativeToolTip": "src\\DataSmart.Infrastructure\\Services\\ExcelDataService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwBUAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-17T19:56:11.641Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\Program.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.API\\Program.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\Program.cs",
+              "RelativeToolTip": "src\\DataSmart.API\\Program.cs",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAuwFIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-17T03:28:06.652Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "estado-resultados.html",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\wwwroot\\estado-resultados.html",
+              "RelativeDocumentMoniker": "src\\DataSmart.API\\wwwroot\\estado-resultados.html",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\wwwroot\\estado-resultados.html",
+              "RelativeToolTip": "src\\DataSmart.API\\wwwroot\\estado-resultados.html",
+              "ViewState": "AgIAAPcBAAAAAAAAAAAYwIMCAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-09-17T19:06:29.566Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\appsettings.json",
+              "RelativeDocumentMoniker": "src\\DataSmart.API\\appsettings.json",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\appsettings.json",
+              "RelativeToolTip": "src\\DataSmart.API\\appsettings.json",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-15T23:49:38.186Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "index.html",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\wwwroot\\index.html",
+              "RelativeDocumentMoniker": "src\\DataSmart.API\\wwwroot\\index.html",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\wwwroot\\index.html",
+              "RelativeToolTip": "src\\DataSmart.API\\wwwroot\\index.html",
+              "ViewState": "AgIAACMDAAAAAAAAAAAYwE0DAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-09-17T17:27:17.916Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FinanceController.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\Controllers\\FinanceController.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.API\\Controllers\\FinanceController.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\Controllers\\FinanceController.cs",
+              "RelativeToolTip": "src\\DataSmart.API\\Controllers\\FinanceController.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAowCEAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-16T23:41:51.458Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ExcelService.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Services\\ExcelService.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.Core\\Services\\ExcelService.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Services\\ExcelService.cs",
+              "RelativeToolTip": "src\\DataSmart.Core\\Services\\ExcelService.cs",
+              "ViewState": "AgIAAKoAAAAAAAAAAAAswLoAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-18T13:52:40.572Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IExcelService.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Interfaces\\IExcelService.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.Core\\Interfaces\\IExcelService.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Interfaces\\IExcelService.cs",
+              "RelativeToolTip": "src\\DataSmart.Core\\Interfaces\\IExcelService.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAxwBoAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-17T19:31:05.113Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IExcelDataService.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Interfaces\\IExcelDataService.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.Core\\Interfaces\\IExcelDataService.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Interfaces\\IExcelDataService.cs",
+              "RelativeToolTip": "src\\DataSmart.Core\\Interfaces\\IExcelDataService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-17T19:56:52.274Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CuentaJerarquica.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\CuentaJerarquica.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.Core\\Models\\CuentaJerarquica.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\CuentaJerarquica.cs",
+              "RelativeToolTip": "src\\DataSmart.Core\\Models\\CuentaJerarquica.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-19T10:42:06.552Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "NivelJerarquico.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\NivelJerarquico.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.Core\\Models\\NivelJerarquico.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\NivelJerarquico.cs",
+              "RelativeToolTip": "src\\DataSmart.Core\\Models\\NivelJerarquico.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-19T10:40:26.347Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "GrupoJerarquico.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\GrupoJerarquico.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.Core\\Models\\GrupoJerarquico.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\GrupoJerarquico.cs",
+              "RelativeToolTip": "src\\DataSmart.Core\\Models\\GrupoJerarquico.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-19T10:39:17.934Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ClasificacionCuenta.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\ClasificacionCuenta.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.Core\\Models\\ClasificacionCuenta.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\ClasificacionCuenta.cs",
+              "RelativeToolTip": "src\\DataSmart.Core\\Models\\ClasificacionCuenta.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-16T21:09:05.938Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "MovimientoContable.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\MovimientoContable.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.Core\\Models\\MovimientoContable.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\MovimientoContable.cs",
+              "RelativeToolTip": "src\\DataSmart.Core\\Models\\MovimientoContable.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-16T21:09:48.455Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "FinancialReport.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\FinancialReport.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.Core\\Models\\FinancialReport.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\FinancialReport.cs",
+              "RelativeToolTip": "src\\DataSmart.Core\\Models\\FinancialReport.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-15T21:19:29.009Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "GrupoMaestro.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\GrupoMaestro.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.Core\\Models\\GrupoMaestro.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\GrupoMaestro.cs",
+              "RelativeToolTip": "src\\DataSmart.Core\\Models\\GrupoMaestro.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-17T11:23:08.275Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "DataSmartDbContext.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Infrastructure\\DataSmartDbContext.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.Infrastructure\\DataSmartDbContext.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Infrastructure\\DataSmartDbContext.cs",
+              "RelativeToolTip": "src\\DataSmart.Infrastructure\\DataSmartDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-15T21:38:58.595Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "ResultadoGrupo.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\ResultadoGrupo.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.Core\\Models\\ResultadoGrupo.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\ResultadoGrupo.cs",
+              "RelativeToolTip": "src\\DataSmart.Core\\Models\\ResultadoGrupo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-17T00:06:01.88Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "GrupoMaestroRepository.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Infrastructure\\Repositories\\GrupoMaestroRepository.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.Infrastructure\\Repositories\\GrupoMaestroRepository.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Infrastructure\\Repositories\\GrupoMaestroRepository.cs",
+              "RelativeToolTip": "src\\DataSmart.Infrastructure\\Repositories\\GrupoMaestroRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-17T11:05:40.435Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ReporteEstadoResultados.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\ReporteEstadoResultados.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.Core\\Models\\ReporteEstadoResultados.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\ReporteEstadoResultados.cs",
+              "RelativeToolTip": "src\\DataSmart.Core\\Models\\ReporteEstadoResultados.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-17T22:51:09.179Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "UploadExcelRequest.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\UploadExcelRequest.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.Core\\Models\\UploadExcelRequest.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\UploadExcelRequest.cs",
+              "RelativeToolTip": "src\\DataSmart.Core\\Models\\UploadExcelRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAgAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-16T20:11:31.68Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "src\\DataSmart.API\\appsettings.Development.json",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\appsettings.Development.json",
+              "RelativeToolTip": "src\\DataSmart.API\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-17T21:09:03.451Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "DataSmart.Infrastructure",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj",
+              "RelativeDocumentMoniker": "src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj",
+              "RelativeToolTip": "src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-09-17T19:55:54.716Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "DataSmart.API.csproj",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\DataSmart.API.csproj",
+              "RelativeDocumentMoniker": "src\\DataSmart.API\\DataSmart.API.csproj",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\DataSmart.API.csproj",
+              "RelativeToolTip": "src\\DataSmart.API\\DataSmart.API.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAIwCIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-09-15T21:02:12.085Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "DataSmart.API",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\DataSmart.API.csproj",
+              "RelativeDocumentMoniker": "src\\DataSmart.API\\DataSmart.API.csproj",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\DataSmart.API.csproj",
+              "RelativeToolTip": "src\\DataSmart.API\\DataSmart.API.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-09-15T22:55:58.608Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "TestController.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\Controllers\\TestController.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.API\\Controllers\\TestController.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\Controllers\\TestController.cs",
+              "RelativeToolTip": "src\\DataSmart.API\\Controllers\\TestController.cs",
+              "ViewState": "AgIAADsAAAAAAAAAAAAowFoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-15T23:20:03.133Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Plan.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\Plan.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.Core\\Models\\Plan.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\Plan.cs",
+              "RelativeToolTip": "src\\DataSmart.Core\\Models\\Plan.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAIBZwB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-15T21:22:25.718Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\User.cs",
+              "RelativeDocumentMoniker": "src\\DataSmart.Core\\Models\\User.cs",
+              "ToolTip": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\Models\\User.cs",
+              "RelativeToolTip": "src\\DataSmart.Core\\Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-15T21:18:37.005Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
