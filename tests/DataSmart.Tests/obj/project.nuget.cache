@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3EU+h26jmx0=",
+  "dgSpecHash": "3oPX/ypIZnY=",
   "success": true,
-  "projectFilePath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\tests\\DataSmart.Tests\\DataSmart.Tests.csproj",
+  "projectFilePath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\tests\\DataSmart.Tests\\DataSmart.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ibeth\\.nuget\\packages\\coverlet.collector\\6.0.4\\coverlet.collector.6.0.4.nupkg.sha512",
     "C:\\Users\\ibeth\\.nuget\\packages\\microsoft.codecoverage\\17.14.1\\microsoft.codecoverage.17.14.1.nupkg.sha512",

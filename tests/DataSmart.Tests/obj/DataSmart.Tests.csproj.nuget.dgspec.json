@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\tests\\DataSmart.Tests\\DataSmart.Tests.csproj": {}
+    "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\tests\\DataSmart.Tests\\DataSmart.Tests.csproj": {}
   },
   "projects": {
-    "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\tests\\DataSmart.Tests\\DataSmart.Tests.csproj": {
+    "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\tests\\DataSmart.Tests\\DataSmart.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\tests\\DataSmart.Tests\\DataSmart.Tests.csproj",
+        "projectUniqueName": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\tests\\DataSmart.Tests\\DataSmart.Tests.csproj",
         "projectName": "DataSmart.Tests",
-        "projectPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\tests\\DataSmart.Tests\\DataSmart.Tests.csproj",
+        "projectPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\tests\\DataSmart.Tests\\DataSmart.Tests.csproj",
         "packagesPath": "C:\\Users\\ibeth\\.nuget\\packages\\",
-        "outputPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\tests\\DataSmart.Tests\\obj\\",
+        "outputPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\tests\\DataSmart.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
