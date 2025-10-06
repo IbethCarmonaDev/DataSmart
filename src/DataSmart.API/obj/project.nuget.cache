@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DOE+XMfSsP4=",
+  "dgSpecHash": "8hfISWRj1JM=",
   "success": true,
-  "projectFilePath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\DataSmart.API.csproj",
+  "projectFilePath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.API\\DataSmart.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ibeth\\.nuget\\packages\\closedxml\\0.105.0\\closedxml.0.105.0.nupkg.sha512",
     "C:\\Users\\ibeth\\.nuget\\packages\\closedxml.parser\\2.0.0\\closedxml.parser.2.0.0.nupkg.sha512",

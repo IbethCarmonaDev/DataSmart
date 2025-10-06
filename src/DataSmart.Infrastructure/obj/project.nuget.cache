@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "RMo7N0EjMaQ=",
+  "dgSpecHash": "UAK1PUeAWEc=",
   "success": true,
-  "projectFilePath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj",
+  "projectFilePath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ibeth\\.nuget\\packages\\closedxml\\0.105.0\\closedxml.0.105.0.nupkg.sha512",
     "C:\\Users\\ibeth\\.nuget\\packages\\closedxml.parser\\2.0.0\\closedxml.parser.2.0.0.nupkg.sha512",

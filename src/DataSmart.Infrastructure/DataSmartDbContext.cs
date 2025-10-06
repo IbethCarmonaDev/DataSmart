@@ -18,10 +18,9 @@ public class DataSmartDbContext : DbContext
     public DbSet<ResultadoGrupo> ResultadosGrupos { get; set; }
     public DbSet<ResultadoGrupo> ResultadoGrupo { get; set; }
     public DbSet<MovimientoContable> MovimientoContable { get; set; }
-    public DbSet<ClasificacionCuenta> ClasificacionCuenta { get; set; }
-    
+    public DbSet<ClasificacionCuenta> ClasificacionCuenta { get; set; }    
     public DbSet<FinancialReport> FinancialReports { get; set; }
-    
+
 
 
     // Este método se usa para configurar el modelo de la base de datos
@@ -30,12 +29,12 @@ public class DataSmartDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.HasDefaultSchema("public");
+        //modelBuilder.HasDefaultSchema("public");
 
-        modelBuilder.Entity<MovimientoContable>().ToTable("MovimientoContable");
-        modelBuilder.Entity<ClasificacionCuenta>().ToTable("ClasificacionCuenta");
-        modelBuilder.Entity<ResultadoGrupo>().ToTable("ResultadoGrupo");
-        modelBuilder.Entity<GrupoMaestro>().ToTable("GrupoMaestro");
+        //modelBuilder.Entity<MovimientoContable>().ToTable("\"MovimientoContable\"");
+        //modelBuilder.Entity<ClasificacionCuenta>().ToTable("\"ClasificacionCuenta\"");
+        //modelBuilder.Entity<ResultadoGrupo>().ToTable("\"ResultadoGrupo\"");
+        //modelBuilder.Entity<GrupoMaestro>().ToTable("\"GrupoMaestro\"");
 
 
 

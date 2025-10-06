@@ -3397,11 +3397,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj",
+      "projectUniqueName": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj",
       "projectName": "DataSmart.Infrastructure",
-      "projectPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj",
+      "projectPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj",
       "packagesPath": "C:\\Users\\ibeth\\.nuget\\packages\\",
-      "outputPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Infrastructure\\obj\\",
+      "outputPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3423,8 +3423,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\DataSmart.Core.csproj": {
-              "projectPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\DataSmart.Core.csproj"
+            "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.Core\\DataSmart.Core.csproj": {
+              "projectPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.Core\\DataSmart.Core.csproj"
             }
           }
         }

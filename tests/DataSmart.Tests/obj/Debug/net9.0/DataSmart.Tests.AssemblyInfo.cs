@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DataSmart.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fabf95e0de7ed57505f9f25f72387e38a8630597")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cdad1c2cb0c3483ddc0679f610e3756aa5cf96be")]
 [assembly: System.Reflection.AssemblyProductAttribute("DataSmart.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DataSmart.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

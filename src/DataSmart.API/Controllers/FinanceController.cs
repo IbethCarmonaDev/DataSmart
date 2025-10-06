@@ -1,8 +1,11 @@
-﻿using DataSmart.Core.Interfaces;
+﻿using DataSmart.API.Models;
+using DataSmart.Core.Interfaces;
 using DataSmart.Core.Models;
 using DataSmart.Core.Services;
 using DataSmart.Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DataSmart.API.Controllers;
@@ -21,58 +24,110 @@ public class FinanceController : ControllerBase
         _excelService = excelService;
     }
 
+
+    //[HttpPost("upload")]
+    //[Consumes("multipart/form-data")]
+    //public async Task<IActionResult> UploadExcel([FromForm] UploadExcelRequest request, [FromQuery] string userId)
+    //{
+    //    string tempFilePath = null;
+    //    try
+    //    {
+    //        var userIdFinal = !string.IsNullOrEmpty(userId) ? userId : request.UserId;
+
+    //        if (string.IsNullOrEmpty(userIdFinal))
+    //            return BadRequest(new { Error = "UserId es requerido." });
+
+    //        _logger.LogInformation($"Solicitud de upload recibida para usuario: {userIdFinal}");
+
+    //        if (request.ArchivoExcel == null || request.ArchivoExcel.Length == 0)
+    //            return BadRequest(new { Error = "No se envió ningún archivo." });
+
+    //        var allowedExtensions = new[] { ".xlsx", ".xls" };
+    //        var fileExtension = Path.GetExtension(request.ArchivoExcel.FileName).ToLower();
+
+    //        if (!allowedExtensions.Contains(fileExtension))
+    //            return BadRequest(new { Error = "Solo se permiten archivos de Excel (.xlsx, .xls)" });
+
+    //        tempFilePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}{fileExtension}");
+
+    //        using (var stream = new FileStream(tempFilePath, FileMode.Create))
+    //        {
+    //            await request.ArchivoExcel.CopyToAsync(stream);
+    //        }
+
+    //        // Procesar archivo
+    //        var resultado = await _excelService.ProcesarArchivoAsync(tempFilePath, userIdFinal);
+
+    //        // Limpiar archivo temporal
+    //        if (System.IO.File.Exists(tempFilePath))
+    //            System.IO.File.Delete(tempFilePath);
+
+    //        if (!resultado.Exito)
+    //            return BadRequest(new { Error = resultado.Mensaje });
+
+    //        // ✅ ESTRUCTURA QUE EL FRONTEND ESPERA
+    //        return Ok(new
+    //        {
+    //            message = resultado.Mensaje,
+    //            fileName = request.ArchivoExcel.FileName,
+    //            totalMovimientos = resultado.TotalMovimientos,
+    //            totalClasificaciones = resultado.TotalClasificaciones,
+
+    //            // ✅ PROPIDADES CRÍTICAS QUE EL FRONTEND BUSCA
+    //            datosProcesados = new
+    //            {
+    //                registros = resultado.TotalMovimientos, // Mismo valor que totalMovimientos
+    //                centrosCostos = resultado.TotalClasificaciones // Mismo valor que totalClasificaciones
+    //            },
+
+    //            resultados = resultado.Resultados,
+    //            userId = userIdFinal
+    //        });
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        if (tempFilePath != null && System.IO.File.Exists(tempFilePath))
+    //            System.IO.File.Delete(tempFilePath);
+
+    //        _logger.LogError(ex, "Error procesando el archivo Excel para usuario: {userId}", userId);
+    //        return StatusCode(500, new { Error = "Error interno procesando el archivo.", Details = ex.Message });
+    //    }
+    //}
+
+
     [HttpPost("upload")]
-    public async Task<IActionResult> UploadExcel([FromForm] UploadExcelRequest request)
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> UploadExcel(
+        [FromForm] UploadExcelRequest request,
+        [FromQuery] string userId) // Solo por query string
     {
         string tempFilePath = null;
         try
         {
+            // Validación más robusta del userId
+            if (string.IsNullOrWhiteSpace(userId))
+                return BadRequest(new { Error = "UserId es requerido en el query string." });
+
+            _logger.LogInformation($"Solicitud de upload recibida para usuario: {userId}");
+
             if (request.ArchivoExcel == null || request.ArchivoExcel.Length == 0)
                 return BadRequest(new { Error = "No se envió ningún archivo." });
 
-            // Validar que sea un archivo de Excel
             var allowedExtensions = new[] { ".xlsx", ".xls" };
             var fileExtension = Path.GetExtension(request.ArchivoExcel.FileName).ToLower();
 
             if (!allowedExtensions.Contains(fileExtension))
                 return BadRequest(new { Error = "Solo se permiten archivos de Excel (.xlsx, .xls)" });
 
-            // Guardar el archivo temporal
-            tempFilePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".xlsx");
+            tempFilePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}{fileExtension}");
 
             using (var stream = new FileStream(tempFilePath, FileMode.Create))
             {
                 await request.ArchivoExcel.CopyToAsync(stream);
             }
 
-            _logger.LogInformation($"Archivo recibido y guardado como: {tempFilePath}");
-
-            // Procesar el Excel
-            var resultado = await _excelService.ProcesarArchivoAsync(tempFilePath);
-
-            // ✅ DEBUG: Verificar qué se procesó
-            _logger.LogInformation($"Resultado: {resultado.Exito}, Mensaje: {resultado.Mensaje}");
-            _logger.LogInformation($"Movimientos: {resultado.TotalMovimientos}, Clasificaciones: {resultado.TotalClasificaciones}");
-
-            if (resultado.Exito && resultado.Resultados != null)
-            {
-                _logger.LogInformation($"Se generaron {resultado.Resultados.Count} resultados de grupo");
-
-                // ✅ DEBUG: Verificar que los datos se procesaron (PERO SIN _context)
-                try
-                {
-                    // Usar métodos de debug del servicio en lugar de _context
-                    var countResultados = await _excelService.ObtenerCantidadResultadosAsync();
-                    var countMovimientos = await _excelService.ObtenerCantidadMovimientosAsync();
-
-                    _logger.LogInformation($"Registros en ResultadoGrupo: {countResultados}");
-                    _logger.LogInformation($"Registros en MovimientoContable: {countMovimientos}");
-                }
-                catch (Exception dbEx)
-                {
-                    _logger.LogError(dbEx, "Error verificando datos en base de datos");
-                }
-            }
+            // Procesar archivo
+            var resultado = await _excelService.ProcesarArchivoAsync(tempFilePath, userId);
 
             // Limpiar archivo temporal
             if (System.IO.File.Exists(tempFilePath))
@@ -81,19 +136,19 @@ public class FinanceController : ControllerBase
             if (!resultado.Exito)
                 return BadRequest(new { Error = resultado.Mensaje });
 
-            var ultimoAno = resultado.Resultados.Max(r => r.Ano);
-            var ultimoMes = resultado.Resultados.Where(r => r.Ano == ultimoAno).Max(r => r.Mes);
-
-            var reporteFormateado = await _excelService.FormatearReporte(resultado.Resultados, ultimoAno, ultimoMes);
-
             return Ok(new
             {
-                Message = resultado.Mensaje,
-                FileName = request.ArchivoExcel.FileName,
-                TotalClasificaciones = resultado.TotalClasificaciones,
-                TotalMovimientos = resultado.TotalMovimientos,
-                Resultados = resultado.Resultados,
-                Reporte = reporteFormateado
+                message = resultado.Mensaje,
+                fileName = request.ArchivoExcel.FileName,
+                totalMovimientos = resultado.TotalMovimientos,
+                totalClasificaciones = resultado.TotalClasificaciones,
+                datosProcesados = new
+                {
+                    registros = resultado.TotalMovimientos,
+                    centrosCostos = resultado.TotalClasificaciones
+                },
+                resultados = resultado.Resultados,
+                userId = userId
             });
         }
         catch (Exception ex)
@@ -101,18 +156,21 @@ public class FinanceController : ControllerBase
             if (tempFilePath != null && System.IO.File.Exists(tempFilePath))
                 System.IO.File.Delete(tempFilePath);
 
-            _logger.LogError(ex, "Error procesando el archivo Excel.");
+            _logger.LogError(ex, "Error procesando el archivo Excel para usuario: {userId}", userId);
             return StatusCode(500, new { Error = "Error interno procesando el archivo.", Details = ex.Message });
         }
     }
 
+
     [HttpGet("anios-disponibles")]
-    public async Task<IActionResult> GetAniosDisponibles()
+    public async Task<IActionResult> GetAniosDisponibles([FromQuery] string userId)
     {
         try
         {
-            // ✅ USAR EL SERVICIO EN LUGAR DE ACCEDER DIRECTAMENTE AL CONTEXT
-            var anios = await _excelService.ObtenerAniosDisponiblesAsync();
+            if (string.IsNullOrEmpty(userId))
+                return BadRequest("UserId es requerido");
+
+            var anios = await _excelService.ObtenerAniosDisponiblesAsync(userId);
             return Ok(anios);
         }
         catch (Exception ex)
@@ -123,40 +181,82 @@ public class FinanceController : ControllerBase
     }
 
 
+    [HttpGet("estado-resultados-anual")]
+    public async Task<IActionResult> GetEstadoResultadosAnual(
+        [FromQuery] int año = 0,
+        [FromQuery] string userId = null)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(userId))
+                return BadRequest("UserId es requerido");
+
+            if (año == 0)
+            {
+                var anios = await _excelService.ObtenerAniosDisponiblesAsync(userId);
+                año = anios.Any() ? anios.Max() : DateTime.Now.Year;
+            }
+
+            _logger.LogInformation($"Generando estado anual para año: {año}, Usuario: {userId}");
+
+            // ✅ LLAMAR AL MÉTODO CORRECTO
+            var resultado = await _excelService.GenerarEstadoPorPeriodo(año, 0, "anual", userId);
+
+            return Ok(new
+            {
+                Ano = año,
+                Mes = 0,
+                Tipo = "anual",
+                Resultados = resultado,
+                UserId = userId
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error generando estado de resultados anual");
+            return StatusCode(500, $"Error generando estado anual: {ex.Message}");
+        }
+    }
 
     [HttpGet("estado-resultados")]
     public async Task<IActionResult> GetEstadoResultados(
         [FromQuery] int año = 0,
         [FromQuery] int mes = 0,
-        [FromQuery] string tipo = "anual")
+        [FromQuery] string tipo = "anual",
+        [FromQuery] string userId = null) // ← AÑADIR USERID COMO PARÁMETRO
     {
         try
         {
-            _logger.LogInformation($"Solicitud recibida: año={año}, mes={mes}, tipo={tipo}");
-            
-            var userId = "demo-user"; // ← Esto será reemplazado luego
+            // ✅ VALIDAR USERID
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("UserId es requerido");
+            }
+
+            _logger.LogInformation($"Solicitud recibida: año={año}, mes={mes}, tipo={tipo}, usuario={userId}");
 
             // Debug: Log de los parámetros recibidos
             if (año == 0)
             {
                 _logger.LogInformation("Año no especificado, buscando más reciente...");
-                var anios = await _excelService.ObtenerAniosDisponiblesAsync();
+                var anios = await _excelService.ObtenerAniosDisponiblesAsync(userId);
                 _logger.LogInformation($"Años disponibles: {string.Join(", ", anios)}");
 
                 año = anios.Any() ? anios.Max() : DateTime.Now.Year;
                 _logger.LogInformation($"Año seleccionado: {año}");
             }
 
-            _logger.LogInformation($"Generando estado para año={año}, tipo={tipo}");
+            _logger.LogInformation($"Generando estado para año={año}, tipo={tipo}, usuario={userId}");
 
-            var resultado = await _excelService.GenerarEstadoPorPeriodo(año, mes, tipo);
+            // ✅ PASAR USERID AL MÉTODO
+            var resultado = await _excelService.GenerarEstadoPorPeriodo(año, mes, tipo, userId);
 
-            _logger.LogInformation($"Estado generado exitosamente");
+            _logger.LogInformation($"Estado generado exitosamente para usuario: {userId}");
             return Ok(resultado);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error generando estado de resultados");
+            _logger.LogError(ex, "Error generando estado de resultados para usuario: {userId}", userId);
             return StatusCode(500, $"Error generando estado de resultados: {ex.Message}");
         }
     }
@@ -177,56 +277,44 @@ public class FinanceController : ControllerBase
         }
     }
 
-    // NUEVO ENDPOINT: Datos procesados (para debugging)
+
     [HttpGet("datos-procesados")]
-    public async Task<IActionResult> GetDatosProcesados()
+    public async Task<IActionResult> GetDatosProcesados([FromQuery] string userId)
     {
         try
         {
-            var datos = await _excelService.ObtenerDatosProcesados();
+            // ✅ VALIDAR USERID
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest(new { Error = "UserId es requerido como query parameter. Ej: /api/Finance/datos-procesados?userId=tu-user-id" });
+            }
+
+            var datos = await _excelService.ObtenerDatosProcesados(userId);
             return Ok(datos);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error obteniendo datos procesados");
+            _logger.LogError(ex, "Error obteniendo datos procesados para usuario: {userId}", userId);
             return StatusCode(500, new { Error = "Error obteniendo datos procesados", Details = ex.Message });
         }
     }
 
-    [HttpGet("estado-resultados-anual")]
-    public async Task<IActionResult> GetEstadoResultadosAnual([FromQuery] int año = 0)
+    [HttpGet("debug-datos")]
+    public async Task<IActionResult> DebugDatos([FromQuery] string userId)
     {
         try
         {
-            if (año == 0)
+            // ✅ VALIDAR USERID
+            if (string.IsNullOrEmpty(userId))
             {
-                // Obtener el año más reciente si no se especifica
-                var anios = await _excelService.ObtenerAniosDisponiblesAsync();
-                año = anios.Any() ? anios.Max() : DateTime.Now.Year;
+                return BadRequest(new { Error = "UserId es requerido" });
             }
 
-            _logger.LogInformation($"Generando estado anual para el año: {año}");
-
-            var resultado = await _excelService.GenerarEstadoAnual(año);
-            return Ok(resultado);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error generando estado de resultados anual");
-            return StatusCode(500, $"Error generando estado anual: {ex.Message}");
-        }
-    }
-
-    [HttpGet("debug-datos")]
-    public async Task<IActionResult> DebugDatos()
-    {
-        try
-        {
-            // ✅ USAR IExcelService EN LUGAR DE IExcelDataService
-            var movimientosCount = await _excelService.ObtenerCantidadMovimientosAsync();
-            var resultadosCount = await _excelService.ObtenerCantidadResultadosAsync();
-            var algunosMovimientos = await _excelService.ObtenerMovimientosMuestraAsync();
-            var algunosResultados = await _excelService.ObtenerResultadosMuestraAsync();
+            // ✅ USAR IExcelService CON USERID
+            var movimientosCount = await _excelService.ObtenerCantidadMovimientosAsync(userId);
+            var resultadosCount = await _excelService.ObtenerCantidadResultadosAsync(userId);
+            var algunosMovimientos = await _excelService.ObtenerMovimientosMuestraAsync(userId);
+            var algunosResultados = await _excelService.ObtenerResultadosMuestraAsync(userId);
 
             return Ok(new
             {
@@ -234,20 +322,15 @@ public class FinanceController : ControllerBase
                 ResultadosCount = resultadosCount,
                 AlgunosMovimientos = algunosMovimientos,
                 AlgunosResultados = algunosResultados,
+                UserId = userId,
                 Mensaje = "Debug completado usando IExcelService"
             });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error en debug-datos");
+            _logger.LogError(ex, "Error en debug-datos para usuario: {userId}", userId);
             return StatusCode(500, $"Error debuggeando datos: {ex.Message}");
         }
     }
-
-}
-
-public class UploadExcelRequest
-{
-    public IFormFile ArchivoExcel { get; set; }
 }
 

@@ -1,23 +1,27 @@
-﻿using DataSmart.Core.Interfaces;
+﻿using DataSmart.API.Filters;
+using DataSmart.Core.Interfaces;
 using DataSmart.Core.Services;
 using DataSmart.Infrastructure;
 using DataSmart.Infrastructure.Repositories;
 using DataSmart.Infrastructure.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.SuppressModelStateInvalidFilter = true;
+    });
 
 // Configuración de CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
         builder => builder
-            .WithOrigins("http://localhost:3000", "https://localhost:44323") // Agregar el puerto de la API
+            .WithOrigins("http://localhost:3000", "https://localhost:44323")
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials());
@@ -27,29 +31,18 @@ builder.Services.AddCors(options =>
 builder.Services.AddDbContext<DataSmartDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DataSmartDb")));
 
-// Configuración de Autenticación JWT (Supabase)
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.Authority = "https://your-project.supabase.co/auth/v1";
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidIssuer = "https://your-project.supabase.co/auth/v1",
-            ValidateAudience = false,
-            ValidateLifetime = true
-        };
-    });
-
-// Registro de Servicios - ¡EVITA DUPLICADOS!
+// Registro de Servicios
 builder.Services.AddScoped<IExcelService, ExcelService>();
 builder.Services.AddScoped<IExcelDataService, ExcelDataService>();
 builder.Services.AddScoped<IGrupoMaestroRepository, GrupoMaestroRepository>();
-// NOTA: ExcelService ya está registrado arriba, NO lo repitas
 
 // Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "DataSmart API", Version = "v1" });
+    c.OperationFilter<SwaggerFileOperationFilter>();
+});
 
 var app = builder.Build();
 
@@ -61,22 +54,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-// 🔥 ORDEN CRÍTICO: Middlewares en el orden correcto
 app.UseCors("AllowReactApp");
+app.UseAuthorization(); // Mantenemos esto por si acaso, pero sin autenticación
 
-// Servir archivos estáticos (HTML, CSS, JS) - PARA TU INTERFAZ WEB
+// Servir archivos estáticos
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-app.UseAuthentication();
-app.UseAuthorization();
-
 app.MapControllers();
-
-// 🔥 REDIRIGIR TODAS LAS RUTAS NO ENCONTRADAS A TU INTERFAZ WEB
 app.MapFallbackToFile("/index.html");
 
 app.Run();
-
-

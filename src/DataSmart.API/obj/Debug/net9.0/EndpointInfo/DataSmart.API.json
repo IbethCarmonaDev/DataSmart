@@ -1,14 +1,23 @@
 {
   "openapi": "3.0.4",
   "info": {
-    "title": "DataSmart.API",
-    "version": "1.0"
+    "title": "DataSmart API",
+    "version": "v1"
   },
   "paths": {
     "/api/Finance/upload": {
       "post": {
         "tags": [
           "Finance"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "requestBody": {
           "content": {
@@ -41,6 +50,45 @@
       "get": {
         "tags": [
           "Finance"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Finance/estado-resultados-anual": {
+      "get": {
+        "tags": [
+          "Finance"
+        ],
+        "parameters": [
+          {
+            "name": "año",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -80,6 +128,13 @@
               "type": "string",
               "default": "anual"
             }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -117,26 +172,12 @@
         "tags": [
           "Finance"
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Finance/estado-resultados-anual": {
-      "get": {
-        "tags": [
-          "Finance"
-        ],
         "parameters": [
           {
-            "name": "año",
+            "name": "userId",
             "in": "query",
             "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 0
+              "type": "string"
             }
           }
         ],
@@ -151,6 +192,15 @@
       "get": {
         "tags": [
           "Finance"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -192,17 +242,16 @@
           "content": {
             "multipart/form-data": {
               "schema": {
+                "required": [
+                  "archivoExcel"
+                ],
                 "type": "object",
                 "properties": {
-                  "file": {
+                  "archivoExcel": {
                     "type": "string",
+                    "description": "Upload Excel file",
                     "format": "binary"
                   }
-                }
-              },
-              "encoding": {
-                "file": {
-                  "style": "form"
                 }
               }
             }

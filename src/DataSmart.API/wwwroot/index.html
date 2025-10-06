@@ -1,9 +1,987 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DataSmart Finance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ====== Paleta & Layout base ====== */
+        :root {
+            --primary-color: #3498db;
+            --primary-dark: #2980b9;
+            --secondary-color: #2ecc71;
+            --secondary-dark: #27ae60;
+            --sidebar-width: 250px;
+            --header-height: 70px;
+            --text-color: #2c3e50;
+            --text-light: #7f8c8d;
+            --background: #f5f7fa;
+            --card-bg: #fff;
+            --success-color: #27ae60;
+            --error-color: #c0392b;
+            --border-color: #e0e0e0;
+            /* Anchos de columnas */
+            --col-grupo: 140px;
+            --col-nivel: 110px;
+            --col-cuenta: 220px;
+            --col-mes: 120px;
+            --col-total: 150px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ====== Sidebar ====== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(135deg,#2c3e50 0%,#3498db 100%);
+            color: #fff;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: .3s;
+            z-index: 1000;
+            box-shadow: 0 0 15px rgba(0,0,0,.1);
+        }
+
+        .logo {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,.1);
+        }
+
+            .logo h1 {
+                font-size: 24px;
+                margin: 0;
+            }
+
+            .logo span {
+                color: #2ecc71;
+            }
+
+        .nav-menu {
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: .2s;
+            border-left: 4px solid transparent;
+        }
+
+            .nav-item:hover {
+                background: rgba(255,255,255,.1);
+                border-left-color: var(--secondary-color);
+            }
+
+            .nav-item.active {
+                background: var(--primary-dark);
+                border-left-color: var(--secondary-color);
+            }
+
+            .nav-item i {
+                margin-right: 15px;
+                width: 20px;
+                text-align: center;
+                font-size: 18px;
+            }
+
+        /* ====== Contenido ====== */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: .3s;
+        }
+
+        .header {
+            background: #fff;
+            padding: 15px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.05);
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: var(--header-height);
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .user-plan {
+            font-size: 12px;
+            color: var(--primary-color);
+            background: rgba(52,152,219,.1);
+            padding: 3px 8px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .content-area {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 20px rgba(0,0,0,.05);
+            padding: 30px;
+            min-height: calc(100vh - 150px);
+        }
+
+        /* ====== Tabs ====== */
+        .module-container {
+            display: none;
+        }
+
+            .module-container.active {
+                display: block;
+                animation: fadeIn .3s ease;
+            }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .module-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .tab-button {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            transition: .2s;
+            font-weight: 500;
+            color: var(--text-light);
+            white-space: nowrap;
+        }
+
+            .tab-button.active {
+                border-bottom-color: var(--primary-color);
+                color: var(--primary-color);
+            }
+
+            .tab-button:hover:not(.active) {
+                color: var(--primary-dark);
+            }
+
+        .tab-pane {
+            display: none;
+        }
+
+            .tab-pane.active {
+                display: block;
+            }
+
+        .header-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .filter-select {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fff;
+            font-size: 14px;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+            .btn-secondary:hover {
+                background: #5a6268;
+            }
+
+        /* ====== Inicio (tarjetas, upload) ====== */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.1);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-color);
+            margin: 10px 0;
+        }
+
+        .metric-trend {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+            .metric-trend.positive {
+                color: var(--success-color);
+            }
+
+            .metric-trend.negative {
+                color: var(--error-color);
+            }
+
+        .welcome-section {
+            margin-bottom: 30px;
+        }
+
+        .welcome-title {
+            font-size: 28px;
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+
+        .welcome-subtitle {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .upload-container {
+            border: 2px dashed var(--primary-color);
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            background: #f8fafc;
+            transition: .3s;
+        }
+
+            .upload-container:hover {
+                background: #e8f4ff;
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0,0,0,.1);
+            }
+
+        .upload-icon {
+            font-size: 60px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .upload-text h2 {
+            color: var(--text-color);
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .upload-text p {
+            color: var(--text-light);
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-label {
+            display: inline-block;
+            background: var(--primary-color);
+            color: #fff;
+            padding: 14px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: .3s;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 4px 10px rgba(52,152,219,.3);
+        }
+
+            .file-label:hover {
+                background: var(--primary-dark);
+                transform: translateY(-2px);
+                box-shadow: 0 6px 15px rgba(52,152,219,.4);
+            }
+
+        .selected-file {
+            margin-top: 20px;
+            font-size: 15px;
+            color: var(--text-color);
+            background: #e8f4ff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: 0 2px 5px rgba(0,0,0,.05);
+        }
+
+            .selected-file i {
+                color: var(--primary-color);
+                margin-right: 10px;
+            }
+
+        .upload-btn {
+            background: var(--secondary-color);
+            color: #fff;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .3s;
+            margin-top: 25px;
+            box-shadow: 0 4px 10px rgba(46,204,113,.3);
+        }
+
+            .upload-btn:hover:not(:disabled) {
+                background: var(--secondary-dark);
+                transform: translateY(-2px);
+                box-shadow: 0 6px 15px rgba(46,204,113,.4);
+            }
+
+            .upload-btn:disabled {
+                background: #95a5a6;
+                cursor: not-allowed;
+                box-shadow: none;
+            }
+
+        .processing-section {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .progress-container {
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg,var(--primary-color),var(--secondary-color));
+            border-radius: 10px;
+            transition: width .5s;
+        }
+
+        .features-section {
+            margin-top: 40px;
+        }
+
+        .section-title {
+            color: var(--text-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,.05);
+            transition: .3s;
+            border-left: 4px solid var(--primary-color);
+        }
+
+            .feature-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0,0,0,.1);
+            }
+
+        .feature-icon {
+            font-size: 30px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+
+        .feature-description {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* ====== Estado de Resultados – Vista dividida ====== */
+        .table-controls {
+            padding: 15px 20px;
+            background: #f0f4f8;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 0;
+        }
+
+            .table-controls button {
+                background: #5a67d8;
+                color: #fff;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 13px;
+            }
+
+                .table-controls button:hover {
+                    background: #4c51bf;
+                }
+
+        /* Fuente original (tu render) – oculta en la vista final */
+        #anual-source {
+            display: none;
+        }
+
+        /* Grid: izquierda fija + derecha con scroll */
+        .anual-grid {
+            display: grid;
+            grid-template-columns: calc(var(--col-grupo) + var(--col-nivel) + var(--col-cuenta)) 1fr;
+            border: 1px solid var(--border-color);
+            background: #fff;
+            max-height: 70vh;
+        }
+
+        .anual-freeze-left {
+            overflow: hidden;
+            max-height: 70vh;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .anual-scroll-right {
+            overflow: auto; /* ← scroll horizontal/vertical aquí */
+            max-height: 70vh;
+        }
+
+        .anual-scroll-inner {
+            width: max-content; /* Para que crezca con el contenido */
+            min-width: calc((12 * var(--col-mes)) + var(--col-total));
+        }
+
+        /* Tablas */
+        .financial-table {
+            border-collapse: collapse;
+            table-layout: fixed;
+            width: max-content;
+        }
+
+            .financial-table th {
+                background: #f8fafc;
+                padding: 12px 10px;
+                text-align: center;
+                border-bottom: 2px solid var(--border-color);
+                font-weight: 600;
+                color: var(--text-color);
+                position: sticky;
+                top: 0;
+                z-index: 5;
+                white-space: nowrap;
+            }
+
+            .financial-table td {
+                padding: 10px 8px;
+                text-align: right;
+                border-bottom: 1px solid var(--border-color);
+                background: #fff;
+                white-space: nowrap;
+            }
+
+        /* Izquierda: 3 columnas fijas con anchos */
+        #financial-table-left th, #financial-table-left td {
+            text-align: left;
+            white-space: normal;
+        }
+
+        #financial-table-left thead th:nth-child(1),
+        #financial-table-left tbody td:nth-child(1) {
+            min-width: var(--col-grupo);
+            max-width: var(--col-grupo);
+        }
+
+        #financial-table-left thead th:nth-child(2),
+        #financial-table-left tbody td:nth-child(2) {
+            min-width: var(--col-nivel);
+            max-width: var(--col-nivel);
+        }
+
+        #financial-table-left thead th:nth-child(3),
+        #financial-table-left tbody td:nth-child(3) {
+            min-width: var(--col-cuenta);
+            max-width: var(--col-cuenta);
+        }
+
+        /* Derecha: meses + total */
+        #financial-table-right th, #financial-table-right td {
+            min-width: var(--col-mes);
+            text-align: right;
+        }
+
+        #financial-table-right thead th {
+            text-align: center;
+        }
+
+            #financial-table-right thead th:last-child,
+            #financial-table-right tbody td:last-child {
+                min-width: var(--col-total);
+            }
+
+        /* Coloreado de filas especiales (coherente en ambas) */
+        #financial-table-left .group-header td,
+        #financial-table-right .group-header td {
+            background: #e3f2fd;
+            font-weight: 700;
+        }
+
+        #financial-table-left .level-header td,
+        #financial-table-right .level-header td {
+            background: #f3e5f5;
+            font-weight: 600;
+        }
+
+        #financial-table-left .total-row td,
+        #financial-table-right .total-row td {
+            background: #e8f5e9;
+            font-weight: 700;
+        }
+
+        .financial-table .negative {
+            color: #c62828;
+            font-weight: 600;
+        }
+
+        .financial-table .positive {
+            color: #2e7d32;
+            font-weight: 600;
+        }
+
+        .financial-table .expand-icon {
+            width: 20px;
+            text-align: center;
+            margin-right: 8px;
+            display: inline-block;
+        }
+
+        .financial-table .collapsed {
+            display: none;
+        }
+
+        /* Slider horizontal propio (por si el SO oculta barras) */
+        .anual-hslider {
+            margin-top: 6px;
+            padding-top: 2px;
+        }
+
+        #anual-hslider {
+            width: 100%;
+            height: 14px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #e5e7eb;
+            border-radius: 6px;
+            outline: none;
+        }
+
+            #anual-hslider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 24px;
+                height: 14px;
+                border-radius: 6px;
+                background: #3b82f6;
+                cursor: pointer;
+            }
+
+            #anual-hslider::-moz-range-thumb {
+                width: 24px;
+                height: 14px;
+                border: 0;
+                border-radius: 6px;
+                background: #3b82f6;
+                cursor: pointer;
+            }
+
+        /* Scrollbar visual (área derecha) */
+        .anual-scroll-right::-webkit-scrollbar {
+            height: 12px;
+            width: 12px;
+        }
+
+        .anual-scroll-right::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .anual-scroll-right::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 6px;
+        }
+
+            .anual-scroll-right::-webkit-scrollbar-thumb:hover {
+                background: var(--primary-dark);
+            }
+
+        /* ====== Responsive ====== */
+        @media (max-width:992px) {
+            .sidebar {
+                width: 70px;
+            }
+
+                .sidebar .logo-text, .sidebar .nav-text {
+                    display: none;
+                }
+
+            .nav-item {
+                justify-content: center;
+                padding: 15px 10px;
+            }
+
+                .nav-item i {
+                    margin-right: 0;
+                }
+
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+
+        @media (max-width:768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                height: auto;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .user-info {
+                text-align: center;
+            }
+
+            .module-tabs {
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+
+            .tab-button {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+
+            .header-controls {
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 10px;
+            }
+        }
+
+        @media (max-width:576px) {
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .sidebar {
+                width: 0;
+                overflow: hidden;
+            }
+
+                .sidebar.open {
+                    width: 250px;
+                }
+
+            .menu-toggle {
+                display: block;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 1100;
+                background: var(--primary-color);
+                color: #fff;
+                border: none;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+                cursor: pointer;
+                box-shadow: 0 4px 10px rgba(0,0,0,.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle" id="menu-toggle" style="display:none;"><i class="fas fa-bars"></i></button>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo"><h1 class="logo-text">Data<span>Smart</span></h1></div>
+            <div class="nav-menu">
+                <div class="nav-item active" data-module="inicio"><i class="fas fa-home"></i><span class="nav-text">Inicio</span></div>
+                <div class="nav-item" data-module="estado-resultados"><i class="fas fa-chart-line"></i><span class="nav-text">Estado de Resultados</span></div>
+                <div class="nav-item" data-module="balance-general"><i class="fas fa-balance-scale"></i><span class="nav-text">Balance General</span></div>
+                <div class="nav-item" data-module="kpis"><i class="fas fa-key"></i><span class="nav-text">KPIs Financieros</span></div>
+                <div class="nav-item" data-module="presupuesto"><i class="fas fa-coins"></i><span class="nav-text">Presupuesto</span></div>
+                <div class="nav-item" data-module="flujo-caja"><i class="fas fa-money-bill-wave"></i><span class="nav-text">Flujo de Caja</span></div>
+                <div class="nav-item" data-module="configuracion"><i class="fas fa-cog"></i><span class="nav-text">Configuración</span></div>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div class="main-content">
+            <div class="header">
+                <h1 class="page-title" id="page-title">DataSmart Finance</h1>
+                <div class="header-controls" id="header-controls" style="display:none;">
+                    <select id="year-select" class="filter-select">
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                    </select>
+                    <button id="export-pdf" class="btn-secondary"><i class="fas fa-file-pdf"></i> Exportar PDF</button>
+                </div>
+                <div class="user-menu">
+                    <div class="user-info"><div class="user-name">Usuario Demo</div><div class="user-plan">Plan Premium</div></div>
+                    <div class="user-avatar"><i class="fas fa-user-circle" style="font-size:32px; color:var(--primary-color);"></i></div>
+                </div>
+            </div>
+
+            <div class="content-area" id="module-container">
+                <!-- ====== Módulo Inicio ====== -->
+                <div class="module-container active" id="inicio-module">
+                    <div class="welcome-section">
+                        <h2 class="welcome-title">Bienvenido a DataSmart Finance</h2>
+                        <p class="welcome-subtitle">Transforma tus datos financieros en información valiosa para la toma de decisiones</p>
+                    </div>
+
+                    <div class="upload-container">
+                        <div class="upload-icon"><i class="fas fa-file-excel"></i></div>
+                        <div class="upload-text">
+                            <h2>Comienza subiendo tu archivo Excel</h2>
+                            <p>Selecciona el archivo Plantilla_Entrada_ERP.xlsx para generar tus estados financieros</p>
+                        </div>
+                        <input type="file" id="file-input" class="file-input" accept=".xlsx,.xls" />
+                        <label for="file-input" class="file-label"><i class="fas fa-cloud-upload-alt"></i> Seleccionar archivo</label>
+                        <div id="selected-file" class="selected-file"><i class="fas fa-file"></i> Ningún archivo seleccionado</div>
+                        <button class="upload-btn" id="upload-btn" disabled><i class="fas fa-upload"></i> Procesar Archivo</button>
+                    </div>
+
+                    <div id="error-message" class="error-message" style="display:none;"></div>
+                    <div id="success-message" class="success-message" style="display:none;"></div>
+
+                    <div id="processing-section" class="processing-section">
+                        <h3>Procesando archivo...</h3>
+                        <div class="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
+                        <p>Analizando datos financieros y generando estados de resultados...</p>
+                    </div>
+
+                    <div class="features-section">
+                        <h3 class="section-title">Módulos de DataSmart Finance</h3>
+                        <div class="features-grid" id="features-grid">Features se cargan dinámicamente</div>
+                    </div>
+                </div>
+
+                <!-- ====== Estado de Resultados ====== -->
+                <div class="module-container" id="estado-resultados-module">
+                    <div class="module-tabs" id="er-tabs">
+                        <button class="tab-button active" data-tab="resumen">Resumen Ejecutivo</button>
+                        <button class="tab-button" data-tab="anual">Anual</button>
+                        <button class="tab-button" data-tab="mensual">Mensual</button>
+                        <button class="tab-button" data-tab="trimestral">Trimestral</button>
+                        <button class="tab-button" data-tab="kpis">KPIs</button>
+                        <button class="tab-button" data-tab="graficos">Gráficos</button>
+                        <button class="tab-button" data-tab="tendencias">Tendencias</button>
+                        <button class="tab-button" data-tab="ia">Análisis IA</button>
+                        <button class="tab-button" data-tab="informe">Informe Junta</button>
+                    </div>
+
+                    <div class="tab-content">
+                        <!-- Resumen -->
+                        <div class="tab-pane active" id="resumen-tab">
+                            <div class="dashboard-cards" id="resumen-cards">Se carga dinámicamente</div>
+                        </div>
+
+                        <!-- Anual -->
+                        <div class="tab-pane" id="anual-tab">
+                            <div class="table-controls">
+                                <button id="expand-all"><i class="fas fa-expand"></i> Expandir Todo</button>
+                                <button id="collapse-groups"><i class="fas fa-minus-square"></i> Contraer Grupos</button>
+                                <button id="collapse-levels"><i class="fas fa-minus-circle"></i> Contraer Niveles</button>
+                            </div>
+
+                            <div id="loading" class="loading">
+                                <i class="fas fa-spinner fa-spin" style="font-size: 40px; margin-bottom: 15px;"></i>
+                                <p>Cargando datos del estado de resultados...</p>
+                            </div>
+
+                            <!-- Error local de la pestaña Anual (nota: también existe uno en Inicio) -->
+                            <div id="error-message" class="error" style="display: none;"></div>
+
+                            <!-- 1) Tabla ORIGINAL (tu render) oculta -->
+                            <div class="table-scroll-container anual-table-wrapper" id="anual-source" style="display:none;">
+                                <table class="financial-table" id="financial-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-grupo">Grupo</th>
+                                            <th class="col-nivel">Nivel</th>
+                                            <th class="col-cuenta">Cuenta</th>
+                                            <th>Enero</th>
+                                            <th>Febrero</th>
+                                            <th>Marzo</th>
+                                            <th>Abril</th>
+                                            <th>Mayo</th>
+                                            <th>Junio</th>
+                                            <th>Julio</th>
+                                            <th>Agosto</th>
+                                            <th>Septiembre</th>
+                                            <th>Octubre</th>
+                                            <th>Noviembre</th>
+                                            <th>Diciembre</th>
+                                            <th>Total Anual</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body">Datos dinámicos</tbody>
+                                </table>
+                            </div>
+
+                            <!-- 2) Vista DIVIDIDA (lo que ve el usuario) -->
+                            <div class="anual-grid" id="anual-grid" style="display:none;">
+                                <div class="anual-freeze-left" id="anual-left">
+                                    <table class="financial-table" id="financial-table-left">
+                                        <thead></thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+
+                                <div class="anual-scroll-right" id="anual-right">
+                                    <div class="anual-scroll-inner" id="anual-inner">
+                                        <table class="financial-table" id="financial-table-right">
+                                            <thead></thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slider horizontal de apoyo -->
+                            <!--<div class="anual-hslider"><input type="range" id="anual-hslider" min="0" value="0" step="1"></div>-->
+
+                            <div class="kpi-section" id="kpi-section" style="display: none;">
+                                <h3>Indicadores Clave (KPIs)</h3>
+                                <div class="kpi-grid" id="kpi-grid"></div>
+                            </div>
+                        </div>
+
+                        <!-- Otros tabs -->
+                        <div class="tab-pane" id="mensual-tab"><p>Vista mensual - En desarrollo</p></div>
+                        <div class="tab-pane" id="trimestral-tab"><p>Vista trimestral - En desarrollo</p></div>
+                    </div>
+                </div>
+
+                <!-- ====== Balance (placeholder) ====== -->
+                <div class="module-container" id="balance-general-module">
+                    <div class="module-tabs">
+                        <button class="tab-button active" data-tab="balance-resumen">Resumen</button>
+                        <button class="tab-button" data-tab="balance-detalle">Detalle</button>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="balance-resumen-tab">
+                            <p>Módulo de Balance General - En desarrollo</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <script src="/js/app.js"></script>
+        <script src="/js/modules/estado-resultados.js"></script>
+</body>
+</html>
+
+
+
+
+<!--<!DOCTYPE html>
+<html lang="es">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DataSmart Finance - Inicio</title>
+    <title>DataSmart Finance</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -19,6 +997,7 @@
             --card-bg: #ffffff;
             --success-color: #27ae60;
             --error-color: #c0392b;
+            --border-color: #e0e0e0;
         }
 
         * {
@@ -155,6 +1134,132 @@
             min-height: calc(100vh - 150px);
         }
 
+        /* Module containers */
+        .module-container {
+            display: none;
+        }
+
+            .module-container.active {
+                display: block;
+                animation: fadeIn 0.3s ease;
+            }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Module tabs */
+        .module-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .tab-button {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            color: var(--text-light);
+            white-space: nowrap;
+        }
+
+            .tab-button.active {
+                border-bottom-color: var(--primary-color);
+                color: var(--primary-color);
+            }
+
+            .tab-button:hover:not(.active) {
+                color: var(--primary-dark);
+            }
+
+        .tab-pane {
+            display: none;
+        }
+
+            .tab-pane.active {
+                display: block;
+            }
+
+        /* Header controls */
+        .header-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .filter-select {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            font-size: 14px;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+            .btn-secondary:hover {
+                background: #5a6268;
+            }
+
+        /* Dashboard cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-color);
+            margin: 10px 0;
+        }
+
+        .metric-trend {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+            .metric-trend.positive {
+                color: var(--success-color);
+            }
+
+            .metric-trend.negative {
+                color: var(--error-color);
+            }
+
         /* Welcome section */
         .welcome-section {
             margin-bottom: 30px;
@@ -188,7 +1293,6 @@
                 transform: translateY(-5px);
                 box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             }
-
 
         .upload-icon {
             font-size: 60px;
@@ -349,6 +1453,204 @@
             font-size: 14px;
         }
 
+        /* ========== SOLUCIÓN SIMPLE Y FUNCIONAL PARA LA TABLA ========== */
+        .table-controls {
+            padding: 15px 20px;
+            background: #f0f4f8;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 0;
+        }
+
+            .table-controls button {
+                background: #5a67d8;
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 13px;
+            }
+
+                .table-controls button:hover {
+                    background: #4c51bf;
+                }
+
+        /* CONTENEDOR PRINCIPAL - SIMPLE Y FUNCIONAL */
+        .table-scroll-container {
+            width: 100%;
+            overflow: auto;
+            border: 1px solid var(--border-color);
+            background: white;
+            max-height: 70vh;
+        }
+
+        /* TABLA CON ANCHO FIJO */
+        .financial-table {
+            min-width: 1600px;
+            border-collapse: collapse;
+            width: auto;
+        }
+
+            /* CABECERAS NORMALES */
+            .financial-table th {
+                background: #f8fafc;
+                padding: 12px 10px;
+                text-align: center;
+                border-bottom: 2px solid var(--border-color);
+                font-weight: 600;
+                color: var(--text-color);
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+
+            /* CELDAS NORMALES */
+            .financial-table td {
+                padding: 10px 8px;
+                text-align: right;
+                border-bottom: 1px solid var(--border-color);
+                background: white;
+            }
+
+                /* PRIMERAS COLUMNAS ALINEADAS A LA IZQUIERDA */
+                .financial-table th.col-grupo,
+                .financial-table td.col-grupo,
+                .financial-table th.col-nivel,
+                .financial-table td.col-nivel,
+                .financial-table th.col-cuenta,
+                .financial-table td.col-cuenta {
+                    text-align: left;
+                }
+
+            /* ESTILOS PARA FILAS ESPECIALES */
+            .financial-table .group-header td {
+                background: #e3f2fd;
+                font-weight: 700;
+            }
+
+            .financial-table .level-header td {
+                background: #f3e5f5;
+                font-weight: 600;
+            }
+
+            .financial-table .total-row td {
+                background: #e8f5e9;
+                font-weight: 700;
+            }
+
+            .financial-table .negative {
+                color: #c62828;
+                font-weight: 600;
+            }
+
+            .financial-table .positive {
+                color: #2e7d32;
+                font-weight: 600;
+            }
+
+            .financial-table .expand-icon {
+                width: 20px;
+                text-align: center;
+                margin-right: 8px;
+                display: inline-block;
+            }
+
+            .financial-table .collapsed {
+                display: none;
+            }
+
+        /* SCROLLBAR VISIBLE */
+        .table-scroll-container::-webkit-scrollbar {
+            height: 12px;
+            width: 12px;
+        }
+
+        .table-scroll-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .table-scroll-container::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 6px;
+        }
+
+            .table-scroll-container::-webkit-scrollbar-thumb:hover {
+                background: var(--primary-dark);
+            }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+            font-size: 16px;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 20px;
+            text-align: center;
+            margin: 20px;
+            border-radius: 6px;
+        }
+
+        .kpi-section {
+            padding: 20px;
+            background: #f8fafc;
+            border-top: 1px solid var(--border-color);
+            margin-top: 20px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .kpi-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .kpi-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+
+        .kpi-label {
+            font-size: 12px;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .error-message {
+            background-color: #ffebee;
+            color: #c0392b;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #c0392b;
+        }
+
+        .success-message {
+            background-color: #e8f5e9;
+            color: #27ae60;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #27ae60;
+        }
+
         /* Responsive */
         @media (max-width: 992px) {
             .sidebar {
@@ -388,6 +1690,26 @@
             .user-info {
                 text-align: center;
             }
+
+            .module-tabs {
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+
+            .tab-button {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+
+            .header-controls {
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 10px;
+            }
+
+            .financial-table {
+                min-width: 1400px;
+            }
         }
 
         @media (max-width: 576px) {
@@ -421,426 +1743,228 @@
                 cursor: pointer;
                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             }
-
-            .error-message {
-                background-color: #ffebee;
-                color: #c0392b;
-                padding: 15px;
-                border-radius: 8px;
-                margin: 20px 0;
-                border-left: 4px solid #c0392b;
-            }
-
-            .success-message {
-                background-color: #e8f5e9;
-                color: #27ae60;
-                padding: 15px;
-                border-radius: 8px;
-                margin: 20px 0;
-                border-left: 4px solid #27ae60;
-            }
-
-
         }
     </style>
 </head>
 <body>
+
     <button class="menu-toggle" id="menu-toggle" style="display: none;">
         <i class="fas fa-bars"></i>
     </button>
 
     <div class="app-container">
-        <!-- Sidebar -->
-        <div class="sidebar" id="sidebar">
-            <div class="logo">
-                <h1 class="logo-text">Data<span>Smart</span></h1>
-            </div>
+ Sidebar
+<div class="sidebar" id="sidebar">
+    <div class="logo">
+        <h1 class="logo-text">Data<span>Smart</span></h1>
+    </div>
 
-            <div class="nav-menu">
-                <div class="nav-item active">
-                    <i class="fas fa-home"></i>
-                    <span class="nav-text">Inicio</span>
-                </div>
-                <div class="nav-item">
-                    <i class="fas fa-chart-line"></i>
-                    <span class="nav-text">Estado de Resultados</span>
-                </div>
-                <div class="nav-item">
-                    <i class="fas fa-balance-scale"></i>
-                    <span class="nav-text">Balance General</span>
-                </div>
-                <div class="nav-item">
-                    <i class="fas fa-key"></i>
-                    <span class="nav-text">KPIs Financieros</span>
-                </div>
-                <div class="nav-item">
-                    <i class="fas fa-coins"></i>
-                    <span class="nav-text">Presupuesto</span>
-                </div>
-                <div class="nav-item">
-                    <i class="fas fa-money-bill-wave"></i>
-                    <span class="nav-text">Flujo de Caja</span>
-                </div>
-                <div class="nav-item">
-                    <i class="fas fa-cog"></i>
-                    <span class="nav-text">Configuración</span>
-                </div>
-            </div>
+    <div class="nav-menu">
+        <div class="nav-item active" data-module="inicio">
+            <i class="fas fa-home"></i>
+            <span class="nav-text">Inicio</span>
         </div>
-
-        <!-- Main content -->
-        <div class="main-content">
-            <div class="header">
-                <h1 class="page-title">DataSmart Finance</h1>
-                <div class="user-menu">
-                    <div class="user-info">
-                        <div class="user-name">Usuario Demo</div>
-                        <div class="user-plan">Plan Premium</div>
-                    </div>
-                    <div class="user-avatar">
-                        <i class="fas fa-user-circle" style="font-size: 32px; color: var(--primary-color);"></i>
-                    </div>
-                </div>
+        <div class="nav-item" data-module="estado-resultados">
+            <i class="fas fa-chart-line"></i>
+            <span class="nav-text">Estado de Resultados</span>
+        </div>
+        <div class="nav-item" data-module="balance-general">
+            <i class="fas fa-balance-scale"></i>
+            <span class="nav-text">Balance General</span>
+        </div>
+        <div class="nav-item" data-module="kpis">
+            <i class="fas fa-key"></i>
+            <span class="nav-text">KPIs Financieros</span>
+        </div>
+        <div class="nav-item" data-module="presupuesto">
+            <i class="fas fa-coins"></i>
+            <span class="nav-text">Presupuesto</span>
+        </div>
+        <div class="nav-item" data-module="flujo-caja">
+            <i class="fas fa-money-bill-wave"></i>
+            <span class="nav-text">Flujo de Caja</span>
+        </div>
+        <div class="nav-item" data-module="configuracion">
+            <i class="fas fa-cog"></i>
+            <span class="nav-text">Configuración</span>
+        </div>
+    </div>
+</div>
+ Main content
+<div class="main-content">
+    <div class="header">
+        <h1 class="page-title" id="page-title">DataSmart Finance</h1>
+        <div class="header-controls" id="header-controls" style="display: none;">
+            <select id="year-select" class="filter-select">
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+            </select>
+            <button id="export-pdf" class="btn-secondary">
+                <i class="fas fa-file-pdf"></i> Exportar PDF
+            </button>
+        </div>
+        <div class="user-menu">
+            <div class="user-info">
+                <div class="user-name">Usuario Demo</div>
+                <div class="user-plan">Plan Premium</div>
             </div>
-
-            <div class="content-area">
-                <div class="welcome-section">
-                    <h2 class="welcome-title">Bienvenido a DataSmart Finance</h2>
-                    <p class="welcome-subtitle">Transforma tus datos financieros en información valiosa para la toma de decisiones</p>
-                </div>
-
-                <div class="upload-container">
-                    <div class="upload-icon">
-                        <i class="fas fa-file-excel"></i>
-                    </div>
-                    <div class="upload-text">
-                        <h2>Comienza subiendo tu archivo Excel</h2>
-                        <p>Selecciona el archivo Plantilla_Entrada_ERP.xlsx para generar tus estados financieros</p>
-                    </div>
-
-                    <input type="file" id="file-input" class="file-input" accept=".xlsx, .xls">
-                    <label for="file-input" class="file-label">
-                        <i class="fas fa-cloud-upload-alt"></i> Seleccionar archivo
-                    </label>
-
-                    <div id="selected-file" class="selected-file">
-                        <i class="fas fa-file"></i> Ningún archivo seleccionado
-                    </div>
-
-                    <button class="upload-btn" id="upload-btn" disabled>
-                        <i class="fas fa-processing"></i> Procesar Archivo
-                    </button>
-
-                </div>
-
-                <div id="error-message" class="error-message" style="display: none;"></div>
-                <div id="success-message" class="success-message" style="display: none;"></div>
-
-                <div id="processing-section" class="processing-section">
-                    <h3>Procesando archivo...</h3>
-                    <div class="progress-container">
-                        <div class="progress-bar" id="progress-bar"></div>
-                    </div>
-                    <p>Analizando datos financieros y generando estados de resultados...</p>
-                </div>
-
-                <div class="features-section">
-                    <h3 class="section-title">Módulos de DataSmart Finance</h3>
-
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <h4 class="feature-title">Estado de Resultados</h4>
-                            <p class="feature-description">Genera reportes detallados de ingresos, costos y gastos con análisis mensual, trimestral y anual.</p>
-                        </div>
-
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-balance-scale"></i>
-                            </div>
-                            <h4 class="feature-title">Balance General</h4>
-                            <p class="feature-description">Visualiza la situación financiera de tu empresa con análisis de activos, pasivos y patrimonio.</p>
-                        </div>
-
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-key"></i>
-                            </div>
-                            <h4 class="feature-title">KPIs Financieros</h4>
-                            <p class="feature-description">Monitorea los indicadores clave de rendimiento como ROA, ROE, liquidez y solvencia.</p>
-                        </div>
-
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-coins"></i>
-                            </div>
-                            <h4 class="feature-title">Presupuesto</h4>
-                            <p class="feature-description">Planifica y compara tus resultados reales versus presupuestados para un mejor control financiero.</p>
-                        </div>
-
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-money-bill-wave"></i>
-                            </div>
-                            <h4 class="feature-title">Flujo de Caja</h4>
-                            <p class="feature-description">Analiza los movimientos de efectivo y prevé situaciones de liquidez a futuro.</p>
-                        </div>
-
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-cog"></i>
-                            </div>
-                            <h4 class="feature-title">Personalización</h4>
-                            <p class="feature-description">Configura tus propios grupos de cuentas, KPIs y parámetros según las necesidades de tu empresa.</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="user-avatar">
+                <i class="fas fa-user-circle" style="font-size: 32px; color: var(--primary-color);"></i>
             </div>
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const fileInput = document.getElementById('file-input');
-            const selectedFile = document.getElementById('selected-file');
-            const uploadBtn = document.getElementById('upload-btn');
-            const processingSection = document.getElementById('processing-section');
-            const progressBar = document.getElementById('progress-bar');
-            const menuToggle = document.getElementById('menu-toggle');
-            const sidebar = document.getElementById('sidebar');
+    <div class="content-area" id="module-container">
+ Módulo de Inicio
+<div class="module-container active" id="inicio-module">
+    <div class="welcome-section">
+        <h2 class="welcome-title">Bienvenido a DataSmart Finance</h2>
+        <p class="welcome-subtitle">Transforma tus datos financieros en información valiosa para la toma de decisiones</p>
+    </div>
 
-            // Toggle sidebar on mobile
-            menuToggle.addEventListener('click', function() {
-                sidebar.classList.toggle('open');
-            });
+    <div class="upload-container">
+        <div class="upload-icon">
+            <i class="fas fa-file-excel"></i>
+        </div>
+        <div class="upload-text">
+            <h2>Comienza subiendo tu archivo Excel</h2>
+            <p>Selecciona el archivo Plantilla_Entrada_ERP.xlsx para generar tus estados financieros</p>
+        </div>
 
-            // Check if mobile view
-            function checkMobileView() {
-                if (window.innerWidth <= 576) {
-                    menuToggle.style.display = 'block';
-                    sidebar.classList.remove('open');
-                } else {
-                    menuToggle.style.display = 'none';
-                    sidebar.classList.remove('open');
-                }
-            }
+        <input type="file" id="file-input" class="file-input" accept=".xlsx, .xls">
+        <label for="file-input" class="file-label">
+            <i class="fas fa-cloud-upload-alt"></i> Seleccionar archivo
+        </label>
 
-            // Initial check
-            checkMobileView();
+        <div id="selected-file" class="selected-file">
+            <i class="fas fa-file"></i> Ningún archivo seleccionado
+        </div>
 
-            // Listen for window resize
-            window.addEventListener('resize', checkMobileView);
+        <button class="upload-btn" id="upload-btn" disabled>
+            <i class="fas fa-upload"></i> Procesar Archivo
+        </button>
+    </div>
 
-            // Mostrar nombre de archivo seleccionado
-            fileInput.addEventListener('change', function() {
-                if (fileInput.files.length > 0) {
-                    selectedFile.innerHTML = '<i class="fas fa-file"></i> ' + fileInput.files[0].name;
-                    uploadBtn.disabled = false;
-                } else {
-                    selectedFile.innerHTML = '<i class="fas fa-file"></i> Ningún archivo seleccionado';
-                    uploadBtn.disabled = true;
-                }
-            });
+    <div id="error-message" class="error-message" style="display: none;"></div>
+    <div id="success-message" class="success-message" style="display: none;"></div>
 
-            // Manejar la subida del archivo
-            uploadBtn.addEventListener('click', async function () {
-                if (fileInput.files.length === 0) {
-                    mostrarError('Por favor selecciona un archivo primero');
-                    return;
-                }
+    <div id="processing-section" class="processing-section">
+        <h3>Procesando archivo...</h3>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <p>Analizando datos financieros y generando estados de resultados...</p>
+    </div>
 
-                console.log('Iniciando upload del archivo:', fileInput.files[0].name);
+    <div class="features-section">
+        <h3 class="section-title">Módulos de DataSmart Finance</h3>
+        <div class="features-grid" id="features-grid">
+ Features se cargan dinámicamente
+</div>
+    </div>
+</div>
+ Módulo de Estado de Resultados
+<div class="module-container" id="estado-resultados-module">
+    <div class="module-tabs" id="er-tabs">
+        <button class="tab-button active" data-tab="resumen">Resumen Ejecutivo</button>
+        <button class="tab-button" data-tab="anual">Anual</button>
+        <button class="tab-button" data-tab="mensual">Mensual</button>
+        <button class="tab-button" data-tab="trimestral">Trimestral</button>
+        <button class="tab-button" data-tab="kpis">KPIs</button>
+        <button class="tab-button" data-tab="graficos">Gráficos</button>
+        <button class="tab-button" data-tab="tendencias">Tendencias</button>
+        <button class="tab-button" data-tab="ia">Análisis IA</button>
+        <button class="tab-button" data-tab="informe">Informe Junta</button>
+    </div>
 
-                // Ocultar área de carga y mostrar procesamiento
-                document.querySelector('.upload-container').style.display = 'none';
-                processingSection.style.display = 'block';
-                uploadBtn.disabled = true;
+    <div class="tab-content">
+ Resumen Ejecutivo
+<div class="tab-pane active" id="resumen-tab">
+    <div class="dashboard-cards" id="resumen-cards">
+ Se carga dinámicamente
+</div>
+</div>
+ Vista Anual - ESTRUCTURA SIMPLIFICADA
+<div class="tab-pane" id="anual-tab">
+    <div class="table-controls">
+        <button id="expand-all">
+            <i class="fas fa-expand"></i> Expandir Todo
+        </button>
+        <button id="collapse-groups">
+            <i class="fas fa-minus-square"></i> Contraer Grupos
+        </button>
+        <button id="collapse-levels">
+            <i class="fas fa-minus-circle"></i> Contraer Niveles
+        </button>
+    </div>
 
-                // Crear FormData para enviar el archivo
-                const formData = new FormData();
-                formData.append('ArchivoExcel', fileInput.files[0]); // ← Nombre EXACTO del parámetro
+    <div id="loading" class="loading">
+        <i class="fas fa-spinner fa-spin" style="font-size: 40px; margin-bottom: 15px;"></i>
+        <p>Cargando datos del estado de resultados...</p>
+    </div>
 
-                try {
-                    console.log('Enviando archivo a la API...');
+    <div id="error-message" class="error" style="display: none;"></div>
+ CONTENEDOR SIMPLE CON SCROLL
+<div class="table-scroll-container">
+    <table class="financial-table" id="financial-table">
+        <thead>
+            <tr>
+                <th class="col-grupo">Grupo</th>
+                <th class="col-nivel">Nivel</th>
+                <th class="col-cuenta">Cuenta</th>
+                <th>Enero</th>
+                <th>Febrero</th>
+                <th>Marzo</th>
+                <th>Abril</th>
+                <th>Mayo</th>
+                <th>Junio</th>
+                <th>Julio</th>
+                <th>Agosto</th>
+                <th>Septiembre</th>
+                <th>Octubre</th>
+                <th>Noviembre</th>
+                <th>Diciembre</th>
+                <th>Total Anual</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+ Datos dinámicos
+</tbody>
+        </table>
+    </div>
 
-                    // ✅ ENDPOINT CORRECTO
-                    const response = await fetch('/api/Finance/upload', {
-                        method: 'POST',
-                        body: formData
-                    });
+    <div class="kpi-section" id="kpi-section" style="display: none;">
+        <h3>Indicadores Clave (KPIs)</h3>
+        <div class="kpi-grid" id="kpi-grid"></div>
+    </div>
+</div>
+ Las demás pestañas se implementarán después
+<div class="tab-pane" id="mensual-tab">
+            <p>Vista mensual - En desarrollo</p>
+        </div>
+        <div class="tab-pane" id="trimestral-tab">
+            <p>Vista trimestral - En desarrollo</p>
+        </div>
+    </div>
+</div>
+ Módulo de Balance General
+<div class="module-container" id="balance-general-module">
+    <div class="module-tabs">
+        <button class="tab-button active" data-tab="balance-resumen">Resumen</button>
+        <button class="tab-button" data-tab="balance-detalle">Detalle</button>
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane active" id="balance-resumen-tab">
+            <p>Módulo de Balance General - En desarrollo</p>
+        </div>
+    </div>
+</div>
+ Los demás módulos...
+</div>
+        </div>
+    </div>
 
-                    console.log('Respuesta recibida. Status:', response.status);
-
-                    if (response.ok) {
-                        const result = await response.json();
-                        console.log('Procesamiento exitoso:', result);
-
-                        // Mostrar mensaje de éxito
-                        processingSection.innerHTML = `
-                <div style="text-align: center; padding: 20px;">
-                    <i class="fas fa-check-circle" style="font-size: 50px; color: var(--success-color);"></i>
-                    <h3>${result.message || 'Archivo procesado correctamente'}</h3>
-                    <p>Registros procesados: ${result.totalMovimientos}</p>
-                    <p>Clasificaciones: ${result.totalClasificaciones}</p>
-                    <p>Redirigiendo al Estado de Resultados...</p>
-                </div>
-            `;
-
-                        // Redirigir después de 2 segundos
-                        setTimeout(() => {
-                            window.location.href = 'estado-resultados.html';
-                        }, 2000);
-
-                    } else {
-                        // Manejar errores HTTP (400, 500, etc.)
-                        const errorText = await response.text();
-                        console.error('Error del servidor:', response.status, errorText);
-
-                        let errorMessage = `Error del servidor (${response.status})`;
-                        try {
-                            const errorJson = JSON.parse(errorText);
-                            errorMessage = errorJson.error || errorJson.message || errorText;
-                        } catch {
-                            errorMessage = errorText || `Error ${response.status}`;
-                        }
-
-                        mostrarError(errorMessage);
-                        resetUploadInterface();
-                    }
-
-                } catch (error) {
-                    console.error('Error de conexión:', error);
-                    mostrarError('Error de conexión: ' + error.message);
-                    resetUploadInterface();
-                }
-            });
-
-            // 🔥 AGREGAR ESTA FUNCIÓN PARA RESETEAR LA INTERFAZ
-            function resetUploadInterface() {
-                document.querySelector('.upload-container').style.display = 'block';
-                processingSection.style.display = 'none';
-                uploadBtn.disabled = false;
-            }
-
-            function procesarRespuestaBackend(resultado) {
-                // Usar los datos que YA devuelve nuestra API
-                processingSection.innerHTML = `
-                <div style="text-align: center; padding: 20px;">
-                    <i class="fas fa-check-circle" style="font-size: 50px; color: var(--success-color);"></i>
-                    <h3>¡Archivo procesado exitosamente!</h3>
-                    <p>Registros financieros: ${resultado.datosProcesados.registros}</p>
-                    <p>Centros de costos: ${resultado.datosProcesados.centrosCostos}</p>
-                    <p>Redirigiendo al Estado de Resultados...</p>
-                </div>
-            `;
-
-                setTimeout(() => {
-                    // Redirigir al módulo de Estado de Resultados
-                    window.location.href = '/estado-resultados.html';
-                }, 2000);
-            }
-
-            function simulateBackendProcessing() {
-                // Simular procesamiento con el backend
-                setTimeout(() => {
-                    processingSection.innerHTML = `
-                        <div style="text-align: center; padding: 20px;">
-                            <i class="fas fa-check-circle" style="font-size: 50px; color: var(--success-color);"></i>
-                            <h3>Archivo procesado correctamente</h3>
-                            <p>Redirigiendo al Estado de Resultados...</p>
-                        </div>
-                    `;
-
-                    // Redirigir después de 2 segundos
-                    setTimeout(() => {
-                        // Cambiar al módulo de Estado de Resultados
-                        document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-                        document.querySelectorAll('.nav-item')[1].classList.add('active');
-                        document.querySelector('.page-title').textContent = 'Estado de Resultados';
-
-                        // Aquí cargaríamos los resultados reales desde el backend
-                        loadFinancialStatement();
-                    }, 2000);
-                }, 1500);
-            }
-
-            function loadFinancialStatement() {
-                // Esta función cargaría los datos reales desde tu API .NET
-                processingSection.innerHTML = `
-                    <h3>Estado de Resultados - Año 2023</h3>
-                    <div style="margin: 20px 0;">
-                        <select id="period-select" style="padding: 10px; border-radius: 5px; border: 1px solid #ddd; margin-right: 10px;">
-                            <option value="annual">Anual</option>
-                            <option value="monthly">Mensual</option>
-                            <option value="quarterly">Trimestral</option>
-                        </select>
-
-                        <select id="year-select" style="padding: 10px; border-radius: 5px; border: 1px solid #ddd; margin-right: 10px;">
-                            <option value="2023">2023</option>
-                            <option value="2022">2022</option>
-                        </select>
-
-                        <select id="cost-center-select" style="padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
-                            <option value="all">Todos los centros de costos</option>
-                            <option value="cc1">Centro de costos 1</option>
-                            <option value="cc2">Centro de costos 2</option>
-                        </select>
-                    </div>
-
-                    <div style="background: #f9f9f9; padding: 30px; border-radius: 8px; text-align: center;">
-                        <i class="fas fa-chart-bar" style="font-size: 40px; color: var(--primary-color); margin-bottom: 15px;"></i>
-                        <h4>Datos del estado de resultados</h4>
-                        <p>Esta sección mostrará la tabla dinámica con los datos procesados después de conectar con el backend .NET.</p>
-                        <p>Incluirá los grupos de cuentas, niveles y los cálculos según la naturaleza contable.</p>
-                    </div>
-                `;
-            }
-
-            function mostrarError(mensaje) {
-                // Crear o mostrar un elemento de error
-                const errorDiv = document.getElementById('error-message');
-                if (errorDiv) {
-                    errorDiv.textContent = mensaje;
-                    errorDiv.style.display = 'block';
-
-                    // Ocultar después de 5 segundos
-                    setTimeout(() => {
-                        errorDiv.style.display = 'none';
-                    }, 5000);
-                } else {
-                    // Fallback: alerta simple
-                    alert('Error: ' + mensaje);
-                }
-            }
-
-            // También agrega esta función para mostrar éxito
-            function mostrarExito(mensaje) {
-                const successDiv = document.getElementById('success-message');
-                if (successDiv) {
-                    successDiv.textContent = mensaje;
-                    successDiv.style.display = 'block';
-                }
-            }
-
-            // Navegación entre módulos
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
-
-                    // Cambiar el título de la página según la selección
-                    const pageTitle = this.querySelector('.nav-text').textContent;
-                    document.querySelector('.page-title').textContent = pageTitle;
-
-                    // Aquí iría la carga del módulo seleccionado
-                    if (pageTitle === 'Inicio') {
-                        window.location.reload();
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="/js/app.js"></script>
+    <script src="/js/modules/estado-resultados.js"></script>
 </body>
-</html>
+</html>-->

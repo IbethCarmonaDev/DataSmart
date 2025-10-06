@@ -3,11 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataSmart.Core.Models;
 
+[Table("ResultadoGrupo")]
 public class ResultadoGrupo
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; } // ← AGREGAR ESTA PROPIEDAD
+    public string UserId { get; set; } // ← NUEVA PROPIEDAD
 
     public string Grupo { get; set; } = string.Empty;
     public string NombreVisible { get; set; } = string.Empty;
@@ -18,4 +20,8 @@ public class ResultadoGrupo
     public int Ano { get; set; }
     public decimal Total { get; set; }
     public string Naturaleza { get; set; } = string.Empty;
+    public int OrdenGrupo { get; set; }
+    public int OrdenNivel { get; set; }
 }
+
+

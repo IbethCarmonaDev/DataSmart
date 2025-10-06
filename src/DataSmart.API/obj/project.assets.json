@@ -4498,11 +4498,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\DataSmart.API.csproj",
+      "projectUniqueName": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.API\\DataSmart.API.csproj",
       "projectName": "DataSmart.API",
-      "projectPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\DataSmart.API.csproj",
+      "projectPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.API\\DataSmart.API.csproj",
       "packagesPath": "C:\\Users\\ibeth\\.nuget\\packages\\",
-      "outputPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.API\\obj\\",
+      "outputPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -4524,11 +4524,11 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\DataSmart.Core.csproj": {
-              "projectPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\DataSmart.Core.csproj"
+            "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.Core\\DataSmart.Core.csproj": {
+              "projectPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.Core\\DataSmart.Core.csproj"
             },
-            "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj": {
-              "projectPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj"
+            "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj": {
+              "projectPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.Infrastructure\\DataSmart.Infrastructure.csproj"
             }
           }
         }

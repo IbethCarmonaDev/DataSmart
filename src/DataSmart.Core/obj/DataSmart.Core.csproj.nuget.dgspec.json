@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\DataSmart.Core.csproj": {}
+    "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.Core\\DataSmart.Core.csproj": {}
   },
   "projects": {
-    "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\DataSmart.Core.csproj": {
+    "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.Core\\DataSmart.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\DataSmart.Core.csproj",
+        "projectUniqueName": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.Core\\DataSmart.Core.csproj",
         "projectName": "DataSmart.Core",
-        "projectPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\DataSmart.Core.csproj",
+        "projectPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.Core\\DataSmart.Core.csproj",
         "packagesPath": "C:\\Users\\ibeth\\.nuget\\packages\\",
-        "outputPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmart\\src\\DataSmart.Core\\obj\\",
+        "outputPath": "D:\\00-OneDrive\\OneDrive\\00-DATASMART EXPRESS\\Visual Studio\\DataSmartFinance\\src\\DataSmart.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

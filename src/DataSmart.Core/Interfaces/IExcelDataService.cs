@@ -6,17 +6,19 @@ namespace DataSmart.Core.Interfaces
     {
         // ✅ SOLO métodos de ACCESO A DATOS
         Task GuardarDatosProcesadosAsync(List<ResultadoGrupo> resultados);
-        Task<List<ResultadoGrupo>> ObtenerDatosPorPeriodoAsync(int año, int mes = 0);
-        Task<Dictionary<string, decimal>> CalcularTotalesPorGrupoAsync(int año, int mes = 0);
-        Task<List<int>> ObtenerAniosDisponiblesAsync();
-        Task<bool> ExistenDatosParaPeriodoAsync(int año, int mes = 0);
+        Task<List<ResultadoGrupo>> ObtenerDatosPorPeriodoAsync(int año, int mes = 0, string userId = null);
+        Task<Dictionary<string, decimal>> CalcularTotalesPorGrupoAsync(int año, int mes = 0, string userId = null);
+        Task<List<int>> ObtenerAniosDisponiblesAsync(string userId);
+        Task<bool> ExistenDatosParaPeriodoAsync(int año, int mes = 0, string userId = null);
 
         // ✅ Métodos de DEBUG (acceso a datos)
-        Task<int> ObtenerCantidadMovimientosAsync();
-        Task<int> ObtenerCantidadResultadosAsync();
-        Task<List<object>> ObtenerMovimientosMuestraAsync();
-        Task<List<object>> ObtenerResultadosMuestraAsync();
+        Task<int> ObtenerCantidadMovimientosAsync(string userId);
+        Task<int> ObtenerCantidadResultadosAsync(string userId);
+        Task<List<object>> ObtenerMovimientosMuestraAsync(string userId);
+        Task<List<object>> ObtenerResultadosMuestraAsync(string userId);
         Task GuardarMovimientosContablesAsync(List<MovimientoContable> movimientos);
+        Task<bool> LimpiarDatosUsuarioAsync(string userId);
+        Task<Dictionary<string, int>> ObtenerOrdenGruposDesdeBDAsync(); 
 
     }
 }

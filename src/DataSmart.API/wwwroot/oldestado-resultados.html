@@ -1,0 +1,817 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataSmart Finance - Estado de Resultados</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-dark: #2980b9;
+            --secondary-color: #2ecc71;
+            --secondary-dark: #27ae60;
+            --text-color: #2c3e50;
+            --text-light: #7f8c8d;
+            --background: #f5f7fa;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+
+            .header h1 {
+                font-size: 28px;
+                margin-bottom: 10px;
+            }
+
+            .header p {
+                opacity: 0.9;
+                font-size: 16px;
+            }
+
+        .controls {
+            padding: 20px;
+            background: #f8fafc;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .control-label {
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        select, button {
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: white;
+            font-size: 14px;
+        }
+
+        button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+            button:hover {
+                background: var(--primary-dark);
+            }
+
+        .table-controls {
+            padding: 15px 20px;
+            background: #f0f4f8;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+            .table-controls button {
+                background: #5a67d8;
+                font-size: 13px;
+                padding: 8px 15px;
+            }
+
+                .table-controls button:hover {
+                    background: #4c51bf;
+                }
+
+        .table-container-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .table-scroll-top {
+            overflow-x: auto;
+            height: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .table-scroll-top-inner {
+            height: 1px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            padding: 20px;
+        }
+
+        .financial-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1400px;
+        }
+
+            .financial-table th,
+            .financial-table td {
+                padding: 12px 8px;
+                text-align: right; /* por defecto a la derecha */
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .financial-table th {
+                background: #f8fafc;
+                font-weight: 600;
+                color: var(--text-color);
+                text-align: center;
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+
+            /* ======== NUEVO: clases para las 3 primeras columnas ======== */
+            .financial-table .col-grupo {
+                text-align: left;
+                position: sticky;
+                left: 0;
+                z-index: 5;
+                min-width: 200px;
+                background: inherit;
+                font-weight: 600;
+            }
+
+            .financial-table .col-nivel {
+                text-align: left;
+                min-width: 200px;
+                background: inherit;
+            }
+
+            .financial-table .col-cuenta {
+                text-align: left;
+                min-width: 250px;
+                background: inherit;
+            }
+            /* ============================================================= */
+
+            .financial-table .group-header {
+                background: #e3f2fd;
+                font-weight: 700;
+                color: var(--primary-dark);
+                cursor: pointer;
+            }
+
+            .financial-table .level-header {
+                background: #f3e5f5;
+                font-weight: 600;
+                color: #7b1fa2;
+                cursor: pointer;
+            }
+
+            .financial-table .account-row {
+                background: white;
+            }
+
+            .financial-table .total-row {
+                background: #e8f5e9;
+                font-weight: 700;
+                color: var(--secondary-dark);
+            }
+
+            .financial-table .negative {
+                color: #c62828;
+            }
+
+            .financial-table .positive {
+                color: #2e7d32;
+            }
+
+            .financial-table .expand-icon {
+                width: 20px;
+                text-align: center;
+                margin-right: 8px;
+                display: inline-block;
+                transition: transform 0.2s;
+            }
+
+            .financial-table .collapsed {
+                display: none;
+            }
+
+            .financial-table .group-total {
+                font-weight: 700;
+                color: var(--primary-dark);
+            }
+
+            .financial-table .level-total {
+                font-weight: 600;
+                color: #7b1fa2;
+            }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+            font-size: 16px;
+        }
+
+            .loading i {
+                color: var(--primary-color);
+            }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 20px;
+            text-align: center;
+            margin: 20px;
+            border-radius: 6px;
+        }
+
+        .kpi-section {
+            padding: 20px;
+            background: #f8fafc;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .kpi-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .kpi-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+
+        .kpi-label {
+            font-size: 12px;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .control-group {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Estado de Resultados Anual</h1>
+            <p>Análisis detallado de ingresos, costos y gastos</p>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <span class="control-label">Año</span>
+                <select id="year-select">
+                    <option value="">Cargando años...</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <span class="control-label">Centro de Costos</span>
+                <select id="cost-center-select">
+                    <option value="all">Todos los centros</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <span class="control-label">&nbsp;</span>
+                <button id="refresh-btn">
+                    <i class="fas fa-sync-alt"></i> Actualizar
+                </button>
+            </div>
+        </div>
+
+        <div class="table-controls">
+            <button id="expand-all">
+                <i class="fas fa-expand"></i> Expandir Todo
+            </button>
+            <!-- Botón 'Contraer Todo' REMOVIDO -->
+            <button id="collapse-groups">
+                <i class="fas fa-minus-square"></i> Contraer Grupos
+            </button>
+            <button id="collapse-levels">
+                <i class="fas fa-minus-circle"></i> Contraer Niveles
+            </button>
+            <span style="margin-left: auto; font-size: 13px; color: #666;">
+                <i class="fas fa-info-circle"></i> Click en grupos y niveles para expandir/contraer
+            </span>
+        </div>
+
+        <div id="loading" class="loading">
+            <i class="fas fa-spinner fa-spin" style="font-size: 40px; margin-bottom: 15px;"></i>
+            <p>Cargando datos del estado de resultados...</p>
+        </div>
+
+        <div id="error-message" class="error" style="display: none;"></div>
+
+        <div class="table-container-wrapper">
+            <div class="table-scroll-top">
+                <div class="table-scroll-top-inner"></div>
+            </div>
+            <div class="table-container" style="display: none;" id="table-container">
+                <table class="financial-table" id="financial-table">
+                    <thead>
+                        <tr>
+                            <th class="col-grupo">Grupo</th>
+                            <th class="col-nivel">Nivel</th>
+                            <th class="col-cuenta">Cuenta</th>
+                            <th>Enero</th>
+                            <th>Febrero</th>
+                            <th>Marzo</th>
+                            <th>Abril</th>
+                            <th>Mayo</th>
+                            <th>Junio</th>
+                            <th>Julio</th>
+                            <th>Agosto</th>
+                            <th>Septiembre</th>
+                            <th>Octubre</th>
+                            <th>Noviembre</th>
+                            <th>Diciembre</th>
+                            <th>Total Anual</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Datos dinámicos -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="kpi-section" id="kpi-section" style="display: none;">
+            <h3>Indicadores Clave (KPIs)</h3>
+            <div class="kpi-grid" id="kpi-grid"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const yearSelect = document.getElementById('year-select');
+            const costCenterSelect = document.getElementById('cost-center-select');
+            const refreshBtn = document.getElementById('refresh-btn');
+            const expandAllBtn = document.getElementById('expand-all');
+            const collapseAllBtn = document.getElementById('collapse-all'); // puede ser null (botón eliminado)
+            const collapseGroupsBtn = document.getElementById('collapse-groups');
+            const collapseLevelsBtn = document.getElementById('collapse-levels');
+            const loadingElement = document.getElementById('loading');
+            const errorElement = document.getElementById('error-message');
+            const tableContainer = document.getElementById('table-container');
+            const tableBody = document.getElementById('table-body');
+            const kpiSection = document.getElementById('kpi-section');
+            const kpiGrid = document.getElementById('kpi-grid');
+            const tableScrollTop = document.querySelector('.table-scroll-top');
+            const financialTable = document.getElementById('financial-table');
+
+            let currentData = null;
+            let expandedState = {};
+
+            function syncScroll() {
+                tableScrollTop.addEventListener('scroll', function () {
+                    tableContainer.scrollLeft = this.scrollLeft;
+                });
+                tableContainer.addEventListener('scroll', function () {
+                    tableScrollTop.scrollLeft = this.scrollLeft;
+                });
+            }
+
+            function adjustScrollTopWidth() {
+                const tableWidth = financialTable.offsetWidth;
+                document.querySelector('.table-scroll-top-inner').style.width = `${tableWidth}px`;
+            }
+
+            function getUserIdFromURL() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get('userId') || localStorage.getItem('datasmart_userId');
+            }
+
+            function checkUserId() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const userId = urlParams.get('userId') || localStorage.getItem('datasmart_userId');
+                if (!userId) {
+                    showError('No se encontró el userId. Por favor, vuelve a la página principal y sube tu archivo nuevamente.');
+                    return false;
+                }
+                return true;
+            }
+
+            async function loadAvailableYears() {
+                try {
+                    if (!checkUserId()) return;
+                    showLoading();
+
+                    const userId = getUserIdFromURL();
+                    if (!userId) {
+                        showError('UserId no encontrado. Vuelve a subir el archivo.');
+                        return;
+                    }
+
+                    const response = await fetch(`/api/Finance/anios-disponibles?userId=${userId}`);
+                    if (response.ok) {
+                        const years = await response.json();
+                        yearSelect.innerHTML = '';
+
+                        if (years && years.length > 0) {
+                            const latestYear = Math.max(...years);
+                            years.forEach(year => {
+                                const option = document.createElement('option');
+                                option.value = year;
+                                option.textContent = year;
+                                yearSelect.appendChild(option);
+                            });
+                            yearSelect.value = latestYear;
+                            loadFinancialData(latestYear);
+                        } else {
+                            showError('No hay años disponibles. Sube un archivo primero.');
+                        }
+                    } else {
+                        showError('Error cargando años disponibles: ' + response.status);
+                    }
+                } catch (error) {
+                    showError('Error de conexión: ' + error.message);
+                }
+            }
+
+            async function loadFinancialData(year) {
+                try {
+                    showLoading();
+                    hideError();
+                    expandedState = {};
+
+                    const userId = getUserIdFromURL();
+                    if (!userId) {
+                        showError('UserId no encontrado. Vuelve a subir el archivo.');
+                        return;
+                    }
+
+                    const response = await fetch(`/api/Finance/estado-resultados-anual?año=${year}&userId=${userId}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        currentData = data.resultados;
+                        renderFinancialTable(data.resultados);
+                        renderKPIs(data.resultados);
+                        hideLoading();
+
+                        this.enhanceTableScroll();   // si ya la usas, déjala
+                        this.wireHorizontalSlider(); // ← AÑADE ESTO
+
+                        setTimeout(() => {
+                            adjustScrollTopWidth();
+                            syncScroll();
+                        }, 100);
+                    } else {
+                        const errorText = await response.text();
+                        showError('Error cargando datos: ' + errorText);
+                    }
+                } catch (error) {
+                    console.error('Error completo:', error);
+                    showError('Error de conexión: ' + error.message);
+                }
+            }
+
+            function renderFinancialTable(resultados) {
+                tableBody.innerHTML = '';
+
+                if (!resultados || !resultados.estructura) {
+                    showError('Estructura de datos no válida. No se encontró la propiedad "estructura"');
+                    return;
+                }
+
+                resultados.estructura.forEach((grupo, grupoIndex) => {
+                    if (!grupo) return;
+
+                    const grupoId = `grupo-${grupoIndex}`;
+                    const isGrupoExpanded = expandedState[grupoId] !== false;
+
+                    // Fila del Grupo
+                    const grupoRow = document.createElement('tr');
+                    grupoRow.className = 'group-header';
+                    grupoRow.dataset.id = grupoId;
+                    grupoRow.dataset.type = 'grupo';
+                    grupoRow.innerHTML = `
+                            <td class="col-grupo">
+                                <span class="expand-icon">►</span>
+                                <strong>${grupo.nombreGrupo || grupo.grupo || 'Grupo sin nombre'}</strong>
+                            </td>
+                            <td class="col-nivel" colspan="2"></td>
+                            ${generateMonthlyCells(grupo.totalesPorMes || {})}
+                            <td><strong class="group-total">${formatCurrency(grupo.totalAnualGrupo || 0)}</strong></td>
+                        `;
+                    tableBody.appendChild(grupoRow);
+
+                    // Niveles
+                    if (grupo.niveles && Array.isArray(grupo.niveles)) {
+                        grupo.niveles.forEach((nivel, nivelIndex) => {
+                            if (!nivel) return;
+
+                            const nivelId = `${grupoId}-nivel-${nivelIndex}`;
+                            const isNivelExpanded = expandedState[nivelId] !== false;
+
+                            const nivelRow = document.createElement('tr');
+                            nivelRow.className = `level-header ${isGrupoExpanded ? '' : 'collapsed'}`;
+                            nivelRow.dataset.id = nivelId;
+                            nivelRow.dataset.type = 'nivel';
+                            nivelRow.dataset.parent = grupoId;
+                            nivelRow.innerHTML = `
+                                    <td class="col-grupo"></td>
+                                    <td class="col-nivel">
+                                        <span class="expand-icon">►</span>
+                                        <strong>${nivel.nivel || 'Nivel sin nombre'}</strong>
+                                    </td>
+                                    <td class="col-cuenta"></td>
+                                    ${generateMonthlyCells(nivel.totalesPorMes || {})}
+                                    <td><strong class="level-total">${formatCurrency(nivel.totalAnualNivel || 0)}</strong></td>
+                                `;
+                            tableBody.appendChild(nivelRow);
+
+                            // Cuentas
+                            if (nivel.cuentas && Array.isArray(nivel.cuentas)) {
+                                nivel.cuentas.forEach((cuenta) => {
+                                    if (!cuenta) return;
+                                    const cuentaRow = document.createElement('tr');
+                                    cuentaRow.className = `account-row ${isGrupoExpanded && isNivelExpanded ? '' : 'collapsed'}`;
+                                    cuentaRow.dataset.parent = nivelId;
+                                    cuentaRow.innerHTML = `
+                                            <td class="col-grupo"></td>
+                                            <td class="col-nivel"></td>
+                                            <td class="col-cuenta">${cuenta.nombreCuenta || 'Cuenta sin nombre'}</td>
+                                            ${generateMonthlyCells(cuenta.totalesPorMes || {})}
+                                            <td>${formatCurrency(cuenta.totalAnual || 0)}</td>
+                                        `;
+                                    tableBody.appendChild(cuentaRow);
+                                });
+                            }
+                        });
+                    }
+                });
+
+                // Total general
+                const totalGeneralRow = document.createElement('tr');
+                totalGeneralRow.className = 'total-row';
+                totalGeneralRow.innerHTML = `
+                        <td class="col-grupo" colspan="3"><strong>TOTAL GENERAL</strong></td>
+                        ${generateMonthlyCells(resultados.totalesPorMes || {})}
+                        <td><strong>${formatCurrency(resultados.totalAnual || 0)}</strong></td>
+                    `;
+                tableBody.appendChild(totalGeneralRow);
+
+                updateExpandIcons();
+                addExpandCollapseListeners();
+                tableContainer.style.display = 'block';
+            }
+
+            function generateMonthlyCells(monthlyData) {
+                let cells = '';
+                for (let mes = 1; mes <= 12; mes++) {
+                    const value = monthlyData[mes] || 0;
+                    const cellClass = value < 0 ? 'negative' : value > 0 ? 'positive' : '';
+                    cells += `<td class="${cellClass}">${formatCurrency(value)}</td>`;
+                }
+                return cells;
+            }
+
+            function addExpandCollapseListeners() {
+                document.querySelectorAll('.group-header').forEach(row => {
+                    row.addEventListener('click', function () {
+                        const grupoId = this.dataset.id;
+                        const isExpanded = expandedState[grupoId] !== false;
+                        expandedState[grupoId] = !isExpanded;
+
+                        document.querySelectorAll(`[data-parent="${grupoId}"]`).forEach(child => {
+                            child.classList.toggle('collapsed', !expandedState[grupoId]);
+                        });
+                        updateExpandIcons();
+                    });
+                });
+
+                document.querySelectorAll('.level-header').forEach(row => {
+                    row.addEventListener('click', function (e) {
+                        e.stopPropagation();
+                        const nivelId = this.dataset.id;
+                        const isExpanded = expandedState[nivelId] !== false;
+                        expandedState[nivelId] = !isExpanded;
+
+                        document.querySelectorAll(`[data-parent="${nivelId}"]`).forEach(child => {
+                            child.classList.toggle('collapsed', !expandedState[nivelId]);
+                        });
+                        updateExpandIcons();
+                    });
+                });
+            }
+
+            function updateExpandIcons() {
+                document.querySelectorAll('[data-type="grupo"], [data-type="nivel"]').forEach(row => {
+                    const id = row.dataset.id;
+                    const icon = row.querySelector('.expand-icon');
+                    if (icon) {
+                        icon.textContent = expandedState[id] !== false ? '▼' : '►';
+                    }
+                });
+            }
+
+            function expandAll() {
+                document.querySelectorAll('[data-type="grupo"], [data-type="nivel"]').forEach(row => {
+                    const id = row.dataset.id;
+                    expandedState[id] = true;
+                });
+                document.querySelectorAll('.collapsed').forEach(row => {
+                    row.classList.remove('collapsed');
+                });
+                updateExpandIcons();
+            }
+
+            // La función puede quedarse por si en el futuro reactivas el botón
+            function collapseAll() {
+                document.querySelectorAll('[data-type="grupo"], [data-type="nivel"]').forEach(row => {
+                    const id = row.dataset.id;
+                    expandedState[id] = false;
+                });
+                document.querySelectorAll('tr:not([data-type])').forEach(row => {
+                    if (!row.classList.contains('group-header') && !row.classList.contains('total-row')) {
+                        row.classList.add('collapsed');
+                    }
+                });
+                updateExpandIcons();
+            }
+
+            function collapseGroups() {
+                document.querySelectorAll('[data-type="grupo"]').forEach(row => {
+                    const grupoId = row.dataset.id;
+                    expandedState[grupoId] = false;
+
+                    document.querySelectorAll(`[data-parent="${grupoId}"]`).forEach(child => {
+                        child.classList.add('collapsed');
+
+                        if (child.dataset.type === 'nivel') {
+                            const nivelId = child.dataset.id;
+                            expandedState[nivelId] = false;
+
+                            document.querySelectorAll(`[data-parent="${nivelId}"]`).forEach(cuenta => {
+                                cuenta.classList.add('collapsed');
+                            });
+                        }
+                    });
+                });
+                updateExpandIcons();
+            }
+
+            function collapseLevels() {
+                document.querySelectorAll('[data-type="grupo"]').forEach(row => {
+                    const grupoId = row.dataset.id;
+                    expandedState[grupoId] = true;
+
+                    document.querySelectorAll(`[data-parent="${grupoId}"][data-type="nivel"]`).forEach(nivel => {
+                        nivel.classList.remove('collapsed');
+
+                        const nivelId = nivel.dataset.id;
+                        expandedState[nivelId] = false;
+
+                        document.querySelectorAll(`[data-parent="${nivelId}"]`).forEach(cuenta => {
+                            cuenta.classList.add('collapsed');
+                        });
+                    });
+                });
+                updateExpandIcons();
+            }
+
+            function renderKPIs(resultados) {
+                kpiGrid.innerHTML = '';
+
+                if (resultados && resultados.kpIs && typeof resultados.kpIs === 'object') {
+                    Object.entries(resultados.kpIs).forEach(([key, value]) => {
+                        const kpiCard = document.createElement('div');
+                        kpiCard.className = 'kpi-card';
+
+                        let displayValue = value;
+                        if (key.includes('%') && typeof value === 'number') {
+                            displayValue = value.toFixed(2) + '%';
+                        } else if (typeof value === 'number') {
+                            displayValue = formatCurrency(value);
+                        }
+
+                        kpiCard.innerHTML = `
+                                <div class="kpi-value">${displayValue}</div>
+                                <div class="kpi-label">${formatKpiLabel(key)}</div>
+                            `;
+                        kpiGrid.appendChild(kpiCard);
+                    });
+
+                    kpiSection.style.display = 'block';
+                } else {
+                    kpiSection.style.display = 'none';
+                }
+            }
+
+            function formatKpiLabel(key) {
+                const labels = {
+                    'MARGEN_BRUTO': 'Margen Bruto',
+                    'MARGEN_BRUTO_%': 'Margen Bruto %',
+                    'TOTAL_GASTOS_OPERACIONALES': 'Gastos Operacionales',
+                    'TOTAL_INGRESOS_NO_OPERACIONALES': 'Ingresos No Operacionales',
+                    'TOTAL_GASTOS_NO_OPERACIONALES': 'Gastos No Operacionales',
+                    'UTILIDAD_OPERACIONAL': 'Utilidad Operacional',
+                    'UTILIDAD_NETA': 'Utilidad Neta'
+                };
+                return labels[key] || key.replace(/_/g, ' ');
+            }
+
+            function formatCurrency(value) {
+                return new Intl.NumberFormat('es-CO', {
+                    style: 'currency',
+                    currency: 'COP',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }).format(value);
+            }
+
+            function showLoading() {
+                loadingElement.style.display = 'block';
+                tableContainer.style.display = 'none';
+                kpiSection.style.display = 'none';
+            }
+            function hideLoading() { loadingElement.style.display = 'none'; }
+            function showError(message) {
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+                hideLoading();
+                this.enhanceTableScroll();   // si ya la usas, déjala
+                this.wireHorizontalSlider(); // ← AÑADE ESTO
+            }
+            function hideError() { errorElement.style.display = 'none'; }
+
+            // Listeners
+            yearSelect.addEventListener('change', function () {
+                if (this.value) loadFinancialData(this.value);
+            });
+            refreshBtn.addEventListener('click', function () {
+                if (yearSelect.value) loadFinancialData(yearSelect.value);
+            });
+
+            expandAllBtn.addEventListener('click', expandAll);
+            if (collapseAllBtn) {
+                collapseAllBtn.addEventListener('click', collapseAll);
+            }
+            collapseGroupsBtn.addEventListener('click', collapseGroups);
+            collapseLevelsBtn.addEventListener('click', collapseLevels);
+
+            // Inicializar
+            loadAvailableYears();
+            window.addEventListener('resize', adjustScrollTopWidth);
+        });
+    </script>
+</body>
+</html>
+

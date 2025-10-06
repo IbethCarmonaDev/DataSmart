@@ -28,7 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Services\" />
     <Folder Include="src\" />
+    <Folder Include="wwwroot\css\" />
+    <Folder Include="wwwroot\assets\" />
   </ItemGroup>
 
 </Project>

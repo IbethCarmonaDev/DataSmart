@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+[Table("ClasificacionCuenta")]
 public class ClasificacionCuenta
 {
     [Key]
@@ -10,5 +11,8 @@ public class ClasificacionCuenta
     public string Prefijo { get; set; } = string.Empty;
     public string Grupo { get; set; } = string.Empty;
     public string NaturalezaContable { get; set; } = string.Empty;
+    public int OrdenGrupo { get; set; }
+    public int OrdenNivel { get; set; } // 
     public string Nivel { get; set; } = string.Empty;
+
 }
