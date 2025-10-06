@@ -64,27 +64,135 @@ class EstadoResultadosModule {
 
 
 
+    //monthValue(src, i) {
+    //    if (!src || Object.keys(src).length === 0) return 0;
+    //    const idx = i + 1;
+    //    const name = this._meses()[i];
+    //    const keys = [
+    //        String(idx), idx,
+    //        name, name?.toLowerCase?.(),
+    //        `Mes${idx}`, `mes${idx}`, `MES${idx}`,
+    //        `m${idx}`, `m${String(idx).padStart(2, '0')}`
+    //    ];
+    //    for (const k of keys) {
+    //        if (Object.prototype.hasOwnProperty.call(src, k)) {
+    //            const num = this.toNumber(src[k]);
+    //            // ⬇️ devolvemos el valor tal cual, incluso si es 0
+    //            return Number.isFinite(num) ? num : 0;
+    //        }
+    //    }
+    //    return 0;
+    //}
+
+
+
     monthValue(src, i) {
         if (!src || Object.keys(src).length === 0) return 0;
         const idx = i + 1;
         const name = this._meses()[i];
-        const keys = [
-            String(idx), idx,
-            name, name?.toLowerCase?.(),
-            `Mes${idx}`, `mes${idx}`, `MES${idx}`,
-            `m${idx}`, `m${String(idx).padStart(2, '0')}`
-        ];
+        const keys = [String(idx), idx, name, name?.toLowerCase?.(), `Mes${idx}`, `mes${idx}`, `MES${idx}`, `m${idx}`, `m${String(idx).padStart(2, '0')}`];
         for (const k of keys) {
             if (Object.prototype.hasOwnProperty.call(src, k)) {
                 const num = this.toNumber(src[k]);
-                // ⬇️ devolvemos el valor tal cual, incluso si es 0
-                return Number.isFinite(num) ? num : 0;
+                return Number.isFinite(num) ? num : 0; // 0 es válido
             }
         }
         return 0;
     }
 
+    // Lee 12 meses de un nodo cualquiera (cuenta / nivel / grupo)
+    readMonthly(node) {
+        // soporta: node.meses | node.Meses | node.totalesPorMes | node.TotalesPorMes | node
+        const src = node?.meses ?? node?.Meses ?? node?.totalesPorMes ?? node?.TotalesPorMes ?? node ?? {};
+        const out = new Array(12).fill(0);
+        for (let i = 0; i < 12; i++) out[i] = this.monthValue(src, i);
+        return out;
+    }
 
+
+
+    sum12(a, b) {
+        const out = new Array(12).fill(0);
+        for (let i = 0; i < 12; i++) out[i] = (a?.[i] || 0) + (b?.[i] || 0);
+        return out;
+    }
+    toMesesObject(arr12) {
+        const map = {};
+        const names = this._meses();
+        for (let i = 0; i < 12; i++) {
+            map[names[i]] = arr12[i];
+            map[String(i + 1)] = arr12[i];
+        }
+        return map;
+    }
+
+
+    //totalesDeNivel(nivel) {
+    //    // nivel.Cuentas | nivel.cuentas
+    //    const cuentas = Array.isArray(nivel.Cuentas ?? nivel.cuentas) ? (nivel.Cuentas ?? nivel.cuentas) : [];
+    //    return cuentas.reduce((acc, c) => this.sum12(acc, this.readMonthly(c)), new Array(12).fill(0));
+    //}
+
+    //totalesDeGrupo(grupo) {
+    //    // grupo.Niveles | grupo.niveles
+    //    const niveles = Array.isArray(grupo.Niveles ?? grupo.niveles) ? (grupo.Niveles ?? grupo.niveles) : [];
+    //    return niveles.reduce((acc, n) => this.sum12(acc, this.totalesDeNivel(n)), new Array(12).fill(0));
+    //}
+
+
+    construirFilas(anual) {
+        // anual.Estructura | anual.estructura | anual.Grupos | anual.grupos
+        const grupos = anual.Estructura ?? anual.estructura ?? anual.Grupos ?? anual.grupos ?? [];
+        const filas = [];
+
+        grupos.forEach(g => {
+            const nombreGrupo = g.NombreGrupo ?? g.nombreGrupo ?? g.Grupo ?? g.grupo ?? "";
+            filas.push({ Tipo: "GRUPO_HEAD", Grupo: nombreGrupo, Nivel: "", Cuenta: "", Meses: {} });
+
+            const niveles = g.Niveles ?? g.niveles ?? [];
+            niveles.forEach(n => {
+                const nombreNivel = n.Nivel ?? n.nivel ?? "";
+                const cuentas = n.Cuentas ?? n.cuentas ?? [];
+
+                // Cuentas
+                cuentas
+                    .sort((a, b) => (a.CodCuenta ?? a.codCuenta ?? "").localeCompare(b.CodCuenta ?? b.codCuenta ?? ""))
+                    .forEach(c => {
+                        const meses = this.readMonthly(c);
+                        filas.push({
+                            Tipo: "CUENTA",
+                            Grupo: nombreGrupo,
+                            Nivel: nombreNivel,
+                            CodCuenta: c.CodCuenta ?? c.codCuenta ?? "",
+                            Cuenta: c.NombreCuenta ?? c.nombreCuenta ?? c.Cuenta ?? c.cuenta ?? "",
+                            Meses: this.toMesesObject(meses)
+                        });
+                    });
+
+                // Total de nivel = suma de cuentas
+                const totNivel = this.totalesDeNivel(n);
+                filas.push({
+                    Tipo: "TOTAL_NIVEL",
+                    Grupo: nombreGrupo,
+                    Nivel: nombreNivel,
+                    Cuenta: "",
+                    Meses: this.toMesesObject(totNivel)
+                });
+            });
+
+            // Total de grupo = suma de totales de nivel del mismo grupo
+            const totGrupo = this.totalesDeGrupo(g);
+            filas.push({
+                Tipo: "TOTAL_GRUPO",
+                Grupo: nombreGrupo,
+                Nivel: "",
+                Cuenta: "",
+                Meses: this.toMesesObject(totGrupo)
+            });
+        });
+
+        return filas;
+    }
 
 
     // Agrega este método para debuguear los datos
@@ -109,7 +217,7 @@ class EstadoResultadosModule {
         });
     }
 
-    // Luego en loadAnualData, llama al debug:
+
     async loadAnualData(year = null) {
         const y = year || this._qs('#year-select')?.value;
         if (!y) { this.showError('Por favor selecciona un año'); return; }
@@ -122,11 +230,10 @@ class EstadoResultadosModule {
             const data = await resp.json();
             this.currentData = data;
 
-            // DEBUG
-            this.debugData(this._pickResultados(data));
+            //this.renderAnualTable(this._pickResultados(data));  // pinta en #financial-table
 
-            this.renderAnualTable(this._pickResultados(data));
-            this.splitAnualTable(3);
+            this.renderAnualTable(data.resultados);
+            this.splitAnualTable(3);                            // divide en izq/dcha
             this.hideLoading();
         } catch (err) {
             console.error(err);
@@ -135,35 +242,108 @@ class EstadoResultadosModule {
     }
 
 
-    // Lee los 12 meses como arreglo numérico
-    readMonthly(node) {
-        const src = this.monthsSource(node);
-        const out = new Array(12);
+    _readMonthly(node) {
+        // soporta: totalesPorMes, Meses, meses…
+        const src = node?.totalesPorMes ?? node?.TotalesPorMes ?? node?.Meses ?? node?.meses ?? {};
+        const out = new Array(12).fill(0);
         for (let i = 0; i < 12; i++) out[i] = this.monthValue(src, i);
         return out;
     }
+    _toMesesObj(arr12) {
+        const o = {}; const N = this._meses();
+        for (let i = 0; i < 12; i++) { o[N[i]] = arr12[i]; o[String(i + 1)] = arr12[i]; }
+        return o;
+    }
 
-    sum(arr) { return arr.reduce((a, b) => a + this.toNumber(b), 0); }
+    _buildFilasDesdeAPI(apiResultados) {
+        const estructura = apiResultados?.estructura ?? [];
+        const filas = [];
 
-    debugSums(grupo, groupMonthlyTotals, niveles) {
-        console.log('🔍 DEBUG SUMA GRUPO:', grupo.grupo || grupo.nombreGrupo);
-        console.log('Total calculado grupo:', this.sum(groupMonthlyTotals));
+        estructura.forEach(g => {
+            const gNombre = g.nombreGrupo ?? g.Grupo ?? g.grupo ?? '';
+            filas.push({ Tipo: 'GRUPO_HEAD', Grupo: gNombre, Nivel: '', Cuenta: '', Meses: {} });
 
-        niveles.forEach((nivel, ni) => {
-            const cuentas = Array.isArray(nivel.cuentas ?? nivel.Cuentas) ? (nivel.cuentas ?? nivel.Cuentas) : [];
-            let nivelSum = new Array(12).fill(0);
+            const niveles = g.niveles ?? g.Niveles ?? [];
+            niveles.forEach(n => {
+                const nNombre = n.nivel ?? n.Nivel ?? '';
+                const cuentas = n.cuentas ?? n.Cuentas ?? [];
 
-            cuentas.forEach(cuenta => {
-                const meses = this.readMonthly(cuenta);
-                for (let i = 0; i < 12; i++) {
-                    nivelSum[i] += meses[i];
-                }
+                // Cuentas (de la API)
+                cuentas
+                    .sort((a, b) => (a.codCuenta ?? '').localeCompare(b.codCuenta ?? ''))
+                    .forEach(c => {
+                        const meses = this._readMonthly(c); // ← LEE de c.totalesPorMes
+                        filas.push({
+                            Tipo: 'CUENTA',
+                            Grupo: gNombre,
+                            Nivel: nNombre,
+                            CodCuenta: c.codCuenta ?? '',
+                            Cuenta: c.nombreCuenta ?? '',
+                            Meses: this._toMesesObj(meses)
+                        });
+                    });
+
+                // Total Nivel (de la API)
+                filas.push({
+                    Tipo: 'TOTAL_NIVEL',
+                    Grupo: gNombre,
+                    Nivel: nNombre,
+                    Cuenta: '',
+                    Meses: this._toMesesObj(this._readMonthly(n)) // ← LEE de n.totalesPorMes
+                });
             });
 
-            console.log(`  Nivel ${ni}:`, this.sum(nivelSum));
-            console.log(`  Cuentas:`, cuentas.length);
+            // Total Grupo (de la API)
+            filas.push({
+                Tipo: 'TOTAL_GRUPO',
+                Grupo: gNombre,
+                Nivel: '',
+                Cuenta: '',
+                Meses: this._toMesesObj(this._readMonthly(g)) // ← LEE de g.totalesPorMes
+            });
         });
+
+        return filas;
     }
+
+    // Suma elemento a elemento 12 meses
+    sum(a, b) {
+        const out = new Array(12).fill(0);
+        for (let i = 0; i < 12; i++) out[i] = (a?.[i] || 0) + (b?.[i] || 0);
+        return out;
+    }
+
+    //// Lee los 12 meses como arreglo numérico
+    //readMonthly(node) {
+    //    const src = this.monthsSource(node);
+    //    const out = new Array(12);
+    //    for (let i = 0; i < 12; i++) out[i] = this.monthValue(src, i);
+    //    return out;
+    //}
+
+    //sum(arr) { return arr.reduce((a, b) => a + this.toNumber(b), 0); }
+
+    //debugSums(grupo, groupMonthlyTotals, niveles) {
+    //    console.log('🔍 DEBUG SUMA GRUPO:', grupo.grupo || grupo.nombreGrupo);
+    //    console.log('Total calculado grupo:', this.sum(groupMonthlyTotals));
+
+    //    niveles.forEach((nivel, ni) => {
+    //        const cuentas = Array.isArray(nivel.cuentas ?? nivel.Cuentas) ? (nivel.cuentas ?? nivel.Cuentas) : [];
+    //        let nivelSum = new Array(12).fill(0);
+
+    //        cuentas.forEach(cuenta => {
+    //            const meses = this.readMonthly(cuenta);
+    //            for (let i = 0; i < 12; i++) {
+    //                nivelSum[i] += meses[i];
+    //            }
+    //        });
+
+    //        console.log(`  Nivel ${ni}:`, this.sum(nivelSum));
+    //        console.log(`  Cuentas:`, cuentas.length);
+    //    });
+    //}
+
+
 
     anyNonZero(arr) { return arr.some(v => Math.abs(this.toNumber(v)) > 0); }
 
@@ -191,309 +371,132 @@ class EstadoResultadosModule {
         this._qs('#year-select')?.addEventListener('change', (e) => this.loadAnualData(e.target.value));
     }
 
-    /* =================== CARGA =================== */
-    async loadAnualData(year = null) {
-        const y = year || this._qs('#year-select')?.value;
-        if (!y) { this.showError('Por favor selecciona un año'); return; }
-
-        this.showLoading();
-        try {
-            const url = `/api/Finance/estado-resultados-anual?año=${encodeURIComponent(y)}&userId=${encodeURIComponent(this.app.userId || 'user-demo')}`;
-            const resp = await fetch(url);
-            if (!resp.ok) throw new Error(`Error ${resp.status}: ${await resp.text()}`);
-            const data = await resp.json();
-            this.currentData = data;
-
-            this.renderAnualTable(this._pickResultados(data));  // pinta en #financial-table
-            this.splitAnualTable(3);                            // divide en izq/dcha
-            this.hideLoading();
-        } catch (err) {
-            console.error(err);
-            this.showError(err.message || 'Error al cargar.');
-        }
-    }
 
     _pickResultados(data) {
         return data?.resultados ?? data?.Resultados ?? data?.resultado ?? data?.Resultado ?? data;
     }
 
+    renderAnualTable(apiResultados) {
+        // Detecta si hay tablas divididas (izquierda: Grupo/Nivel/Cuenta; derecha: meses + total)
+        const leftBody = this._qs('#table-body-left');
+        const rightBody = this._qs('#table-body-right');
+        const singleBody = this._qs('#table-body');
 
-    ///* =================== RENDER TABLA BASE =================== */
-    //renderAnualTable(resultados) {
-    //    const tbody = this._qs('#table-body');
-    //    if (!tbody) { console.error('No #table-body'); return; }
-    //    tbody.innerHTML = '';
+        const hasSplitTables = !!(leftBody && rightBody);
+        const clear = (el) => { if (el) el.innerHTML = ''; };
 
-    //    if (!resultados) { this.showError('Estructura de datos no válida'); return; }
+        if (hasSplitTables) { clear(leftBody); clear(rightBody); }
+        else { if (!singleBody) { console.error('No table body'); return; } singleBody.innerHTML = ''; }
 
-    //    const grupos = resultados.estructura ?? resultados.Grupos ?? resultados.grupos ?? [];
-    //    if (!Array.isArray(grupos) || grupos.length === 0) {
-    //        // fallback plano
-    //        const filas = resultados.filas ?? resultados.rows ?? [];
-    //        filas.forEach(r => {
-    //            const months = this.readMonthly(r);
-    //            const total = this.anyNonZero(months) ? this.sum(months) : this.toNumber(r.total ?? r.totalAnual);
-    //            const tr = document.createElement('tr');
-    //            tr.innerHTML = `
-    //      <td class="col-grupo">${r.grupo ?? ''}</td>
-    //      <td class="col-nivel">${r.nivel ?? ''}</td>
-    //      <td class="col-cuenta">${r.cuenta ?? ''}</td>
-    //      ${months.map(v => `<td class="${v < 0 ? 'negative' : (v > 0 ? 'positive' : '')}">${this.formatCurrency(v)}</td>`).join('')}
-    //      <td>${this.formatCurrency(total)}</td>`;
-    //            tbody.appendChild(tr);
-    //        });
-    //        return;
-    //    }
+        if (!apiResultados) { this.showError('Estructura de datos no válida'); return; }
 
-    //    // Jerárquico: grupo → niveles → cuentas
-    //    grupos.forEach((g, gi) => {
-    //        // 1) Precalculamos meses del grupo a partir de niveles/cuentas (por si vienen mal)
-    //        let groupSum = new Array(12).fill(0);
+        // estructura desde la API (tu JSON)
+        const grupos = apiResultados.estructura ?? apiResultados.Estructura ?? apiResultados.resultados?.estructura ?? [];
+        if (!Array.isArray(grupos) || grupos.length === 0) { this.showError('No hay estructura para pintar'); return; }
 
-    //        // Para construir DOM en orden, iremos renderizando nivel/cta luego de calcular sus meses
-    //        const niveles = Array.isArray(g.niveles ?? g.Niveles) ? (g.niveles ?? g.Niveles) : [];
+        // helpers solo lectura
+        const readMonthly = (node) => {
+            const src = node?.totalesPorMes ?? node?.TotalesPorMes ?? node?.Meses ?? node?.meses ?? {};
+            const out = new Array(12).fill(0);
+            for (let i = 0; i < 12; i++) out[i] = this.monthValue(src, i); // 0 es válido; no “brinca”
+            return out;
+        };
+        const apiTotal = (node) => {
+            const t = this.toNumber(node?.totalAnualGrupo ?? node?.totalAnualNivel ?? node?.totalAnual ?? node?.total ?? null);
+            return Number.isFinite(t) ? t : 0;
+        };
 
-    //        // --- Render provisional: guardamos bloques de filas para cada nivel ---
-    //        const levelBlocks = [];
+        const paintRowSplit = (leftCellsHtml, rightMonthsArr, rightTotal) => {
+            // izquierda (3 celdas)
+            const trL = document.createElement('tr');
+            trL.innerHTML = leftCellsHtml;
+            leftBody.appendChild(trL);
 
-    //        niveles.forEach((n, ni) => {
-    //            // Sumar de cuentas
-    //            const cuentas = Array.isArray(n.cuentas ?? n.Cuentas) ? (n.cuentas ?? n.Cuentas) : [];
-    //            const accountRows = [];
-    //            let levelSum = new Array(12).fill(0);
-
-    //            cuentas.forEach((c, ci) => {
-    //                const cMonths = this.readMonthly(c);
-    //                for (let i = 0; i < 12; i++) levelSum[i] += cMonths[i];
-    //                const cTotal = this.anyNonZero(cMonths) ? this.sum(cMonths)
-    //                    : this.toNumber(c.totalAnualCuenta ?? c.totalAnual ?? c.total);
-    //                const trC = `
-    //        <tr class="account-row" data-group-index="${gi}" data-level-index="${ni}" data-account-index="${ci}">
-    //          <td class="col-grupo"></td>
-    //          <td class="col-nivel"></td>
-    //          <td class="col-cuenta">${c.cuenta || c.nombreCuenta || c.nombre || `Cuenta ${ci + 1}`}</td>
-    //          ${cMonths.map(v => `<td class="${v < 0 ? 'negative' : (v > 0 ? 'positive' : '')}">${this.formatCurrency(v)}</td>`).join('')}
-    //          <td>${this.formatCurrency(cTotal)}</td>
-    //        </tr>`;
-    //                accountRows.push(trC);
-    //            });
-
-    //            // Meses de nivel: uso los del backend si tienen datos útiles; si no, lo calculado
-    //            const nMonthsRaw = this.readMonthly(n);
-    //            const nMonths = this.anyNonZero(nMonthsRaw) ? nMonthsRaw : levelSum.slice();
-    //            const nTotal = this.anyNonZero(nMonthsRaw) ? (this.toNumber(n.totalAnualNivel ?? n.totalAnual ?? n.total) || this.sum(nMonths))
-    //                : this.sum(nMonths);
-
-    //            // Acumula al grupo
-    //            for (let i = 0; i < 12; i++) groupSum[i] += nMonths[i];
-
-    //            // Guarda bloque (nivel + sus cuentas)
-    //            const trN = `
-    //      <tr class="level-header" data-group-index="${gi}" data-level-index="${ni}">
-    //        <td class="col-grupo"></td>
-    //        <td class="col-nivel"><span class="expand-icon">▸</span><strong>${n.nivel || n.nombreNivel || n.nombre || `Nivel ${ni + 1}`}</strong></td>
-    //        <td class="col-cuenta"></td>
-    //        ${nMonths.map(v => `<td class="${v < 0 ? 'negative' : (v > 0 ? 'positive' : '')}">${this.formatCurrency(v)}</td>`).join('')}
-    //        <td><strong>${this.formatCurrency(nTotal)}</strong></td>
-    //      </tr>`;
-    //            levelBlocks.push(trN + accountRows.join(''));
-    //        });
-
-    //        // Grupo: uso backend si trae meses útiles; si no, lo calculado
-    //        const gMonthsRaw = this.readMonthly(g);
-    //        const gMonths = this.anyNonZero(gMonthsRaw) ? gMonthsRaw : groupSum;
-    //        const gTotal = this.anyNonZero(gMonthsRaw) ? (this.toNumber(g.totalAnualGrupo ?? g.totalAnual ?? g.total) || this.sum(gMonths))
-    //            : this.sum(gMonths);
-
-    //        // --- Render en DOM ---
-    //        const trG = document.createElement('tr');
-    //        trG.className = 'group-header';
-    //        trG.dataset.groupIndex = gi;
-    //        trG.innerHTML = `
-    //    <td class="col-grupo" colspan="3"><span class="expand-icon">▸</span><strong>${g.grupo || g.nombreGrupo || g.nombre || `Grupo ${gi + 1}`}</strong></td>
-    //    ${gMonths.map(v => `<td class="${v < 0 ? 'negative' : (v > 0 ? 'positive' : '')}">${this.formatCurrency(v)}</td>`).join('')}
-    //    <td><strong>${this.formatCurrency(gTotal)}</strong></td>`;
-    //        tbody.appendChild(trG);
-
-    //        // Inserta niveles + cuentas
-    //        const temp = document.createElement('tbody');
-    //        temp.innerHTML = levelBlocks.join('');
-    //        Array.from(temp.children).forEach(row => tbody.appendChild(row));
-    //    });
-
-    //    // Delegación para expandir/contraer
-    //    tbody.addEventListener('click', (ev) => {
-    //        const icon = ev.target.closest('.expand-icon'); if (!icon) return;
-    //        const tr = ev.target.closest('tr');
-    //        if (tr.classList.contains('group-header')) {
-    //            const gi = tr.dataset.groupIndex;
-    //            this._toggleGroup(gi);
-    //        } else if (tr.classList.contains('level-header')) {
-    //            const gi = tr.dataset.groupIndex, ni = tr.dataset.levelIndex;
-    //            this._toggleLevel(gi, ni);
-    //        }
-    //        // re-sincroniza alturas tras cambios
-    //        if (this._leftTable && this._rightTable) this.syncRowHeights(this._leftTable, this._rightTable);
-    //    });
-    //}
-
-
-
-    renderAnualTable(resultados) {
-        const tbody = this._qs('#table-body');
-        if (!tbody) {
-            console.error('No #table-body');
-            return;
-        }
-        tbody.innerHTML = '';
-
-        if (!resultados) {
-            this.showError('Estructura de datos no válida');
-            return;
-        }
-
-        const grupos = resultados.estructura ?? resultados.Grupos ?? resultados.grupos ?? [];
-
-        if (!Array.isArray(grupos) || grupos.length === 0) {
-            // fallback plano
-            const filas = resultados.filas ?? resultados.rows ?? [];
-            filas.forEach(r => {
-                const months = this.readMonthly(r);
-                const total = this.anyNonZero(months) ? this.sum(months) : this.toNumber(r.total ?? r.totalAnual);
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                <td class="col-grupo">${r.grupo ?? ''}</td>
-                <td class="col-nivel">${r.nivel ?? ''}</td>
-                <td class="col-cuenta">${r.cuenta ?? ''}</td>
-                ${months.map(v => `<td class="${v < 0 ? 'negative' : (v > 0 ? 'positive' : '')}">${this.formatCurrency(v)}</td>`).join('')}
-                <td>${this.formatCurrency(total)}</td>`;
-                tbody.appendChild(tr);
-            });
-            return;
-        }
-
-        console.log('🔍 INICIANDO RENDER CON', grupos.length, 'GRUPOS');
-
-        // PRIMERO: Calcular todos los totales antes de renderizar
-        grupos.forEach((grupo, grupoIndex) => {
-            console.log(`🔍 Calculando grupo ${grupoIndex}:`, grupo.grupo || grupo.nombreGrupo);
-
-            // Inicializar acumuladores del grupo
-            grupo._mesesCalculados = new Array(12).fill(0);
-            grupo._totalCalculado = 0;
-
-            const niveles = Array.isArray(grupo.niveles ?? grupo.Niveles) ? (grupo.niveles ?? grupo.Niveles) : [];
-
-            niveles.forEach((nivel, nivelIndex) => {
-                // Inicializar acumuladores del nivel
-                nivel._mesesCalculados = new Array(12).fill(0);
-                nivel._totalCalculado = 0;
-
-                const cuentas = Array.isArray(nivel.cuentas ?? nivel.Cuentas) ? (nivel.cuentas ?? nivel.Cuentas) : [];
-
-                cuentas.forEach((cuenta) => {
-                    // Calcular meses y total de cada cuenta
-                    const cuentaMeses = this.readMonthly(cuenta);
-                    cuenta._mesesCalculados = cuentaMeses;
-                    cuenta._totalCalculado = this.sum(cuentaMeses);
-
-                    // Acumular cuenta → nivel
-                    for (let mes = 0; mes < 12; mes++) {
-                        nivel._mesesCalculados[mes] += cuentaMeses[mes];
-                    }
-                    nivel._totalCalculado += cuenta._totalCalculado;
-                });
-
-                // Acumular nivel → grupo
-                for (let mes = 0; mes < 12; mes++) {
-                    grupo._mesesCalculados[mes] += nivel._mesesCalculados[mes];
-                }
-                grupo._totalCalculado += nivel._totalCalculado;
-            });
-
-            console.log(`📊 Grupo ${grupoIndex} calculado - Total:`, grupo._totalCalculado);
-        });
-
-        // SEGUNDO: Renderizar con los totales ya calculados
-        grupos.forEach((grupo, grupoIndex) => {
-            console.log(`🎨 Renderizando grupo ${grupoIndex}:`, grupo._totalCalculado);
-
-            // 1. Fila del GRUPO
-            const trGrupo = document.createElement('tr');
-            trGrupo.className = 'group-header';
-            trGrupo.dataset.groupIndex = grupoIndex;
-            trGrupo.innerHTML = `
-            <td class="col-grupo" colspan="3">
-                <span class="expand-icon">▸</span>
-                <strong>${grupo.grupo || grupo.nombreGrupo || grupo.nombre || `Grupo ${grupoIndex + 1}`}</strong>
-            </td>
-            ${grupo._mesesCalculados.map((valor, mesIndex) => {
-                const clase = valor < 0 ? 'negative' : (valor > 0 ? 'positive' : '');
-                return `<td class="${clase}"><strong>${valor !== 0 ? this.formatCurrency(valor) : ''}</strong></td>`;
+            // derecha (12 + total)
+            const trR = document.createElement('tr');
+            trR.innerHTML = `
+      ${rightMonthsArr.map(v => {
+                const cls = v < 0 ? 'negative' : (v > 0 ? 'positive' : '');
+                return `<td class="${cls}">${v !== 0 ? this.formatCurrency(v) : ''}</td>`;
             }).join('')}
-            <td><strong>${grupo._totalCalculado !== 0 ? this.formatCurrency(grupo._totalCalculado) : ''}</strong></td>`;
-            tbody.appendChild(trGrupo);
+      <td>${rightTotal !== 0 ? this.formatCurrency(rightTotal) : ''}</td>`;
+            rightBody.appendChild(trR);
+        };
 
+        const paintRowSingle = (leftCellsHtml, rightMonthsArr, rightTotal) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+      ${leftCellsHtml}
+      ${rightMonthsArr.map(v => {
+                const cls = v < 0 ? 'negative' : (v > 0 ? 'positive' : '');
+                return `<td class="${cls}">${v !== 0 ? this.formatCurrency(v) : ''}</td>`;
+            }).join('')}
+      <td>${rightTotal !== 0 ? this.formatCurrency(rightTotal) : ''}</td>`;
+            singleBody.appendChild(tr);
+        };
+
+        const paintRow = hasSplitTables ? paintRowSplit : paintRowSingle;
+
+        // ───────────── PINTAR: grupo → nivel → cuentas ─────────────
+        grupos.forEach((grupo, gi) => {
+            const gMeses = readMonthly(grupo);
+            const gTotal = apiTotal(grupo);
+
+            // GRUPO
+            const leftGrupo = `
+      <td class="col-grupo">
+        <span class="expand-icon">▸</span>
+        <strong>${grupo.nombreGrupo ?? grupo.grupo ?? `Grupo ${gi + 1}`}</strong>
+      </td>
+      <td class="col-nivel"></td>
+      <td class="col-cuenta"></td>`;
+            paintRow(leftGrupo, gMeses, gTotal);
+
+            // NIVELES
             const niveles = Array.isArray(grupo.niveles ?? grupo.Niveles) ? (grupo.niveles ?? grupo.Niveles) : [];
+            niveles.forEach((nivel, ni) => {
+                const nMeses = readMonthly(nivel);
+                const nTotal = apiTotal(nivel);
 
-            niveles.forEach((nivel, nivelIndex) => {
-                // 2. Fila del NIVEL
-                const trNivel = document.createElement('tr');
-                trNivel.className = 'level-header';
-                trNivel.dataset.groupIndex = grupoIndex;
-                trNivel.dataset.levelIndex = nivelIndex;
-                trNivel.innerHTML = `
-                <td class="col-grupo"></td>
-                <td class="col-nivel">
-                    <span class="expand-icon">▸</span>
-                    <strong>${nivel.nivel || nivel.nombreNivel || nivel.nombre || `Nivel ${nivelIndex + 1}`}</strong>
-                </td>
-                <td class="col-cuenta"></td>
-                ${nivel._mesesCalculados.map((valor, mesIndex) => {
-                    const clase = valor < 0 ? 'negative' : (valor > 0 ? 'positive' : '');
-                    return `<td class="${clase}"><strong>${valor !== 0 ? this.formatCurrency(valor) : ''}</strong></td>`;
-                }).join('')}
-                <td><strong>${nivel._totalCalculado !== 0 ? this.formatCurrency(nivel._totalCalculado) : ''}</strong></td>`;
-                tbody.appendChild(trNivel);
+                const leftNivel = `
+        <td class="col-grupo"></td>
+        <td class="col-nivel">
+          <span class="expand-icon">▸</span>
+          <strong>${nivel.nivel ?? nivel.nombreNivel ?? `Nivel ${ni + 1}`}</strong>
+        </td>
+        <td class="col-cuenta"></td>`;
+                paintRow(leftNivel, nMeses, nTotal);
 
-                // 3. Filas de CUENTAS
+                // CUENTAS
                 const cuentas = Array.isArray(nivel.cuentas ?? nivel.Cuentas) ? (nivel.cuentas ?? nivel.Cuentas) : [];
+                cuentas.forEach((cuenta, ci) => {
+                    const cMeses = readMonthly(cuenta);
+                    const cTotal = apiTotal(cuenta);
 
-                cuentas.forEach((cuenta, cuentaIndex) => {
-                    const trCuenta = document.createElement('tr');
-                    trCuenta.className = 'account-row';
-                    trCuenta.dataset.groupIndex = grupoIndex;
-                    trCuenta.dataset.levelIndex = nivelIndex;
-                    trCuenta.dataset.accountIndex = cuentaIndex;
-                    trCuenta.innerHTML = `
-                    <td class="col-grupo"></td>
-                    <td class="col-nivel"></td>
-                    <td class="col-cuenta">${cuenta.cuenta || cuenta.nombreCuenta || cuenta.nombre || `Cuenta ${cuentaIndex + 1}`}</td>
-                    ${cuenta._mesesCalculados.map((valor, mesIndex) => {
-                        const clase = valor < 0 ? 'negative' : (valor > 0 ? 'positive' : '');
-                        return `<td class="${clase}">${valor !== 0 ? this.formatCurrency(valor) : ''}</td>`;
-                    }).join('')}
-                    <td>${cuenta._totalCalculado !== 0 ? this.formatCurrency(cuenta._totalCalculado) : ''}</td>`;
-                    tbody.appendChild(trCuenta);
+                    const leftCuenta = `
+          <td class="col-grupo"></td>
+          <td class="col-nivel"></td>
+          <td class="col-cuenta">${cuenta.nombreCuenta ?? cuenta.cuenta ?? `Cuenta ${ci + 1}`}</td>`;
+                    paintRow(leftCuenta, cMeses, cTotal);
                 });
             });
         });
 
-        // Delegación para expandir/contraer
-        tbody.addEventListener('click', (ev) => {
+        // expandir/contraer (si ya tienes handlers, mantenlos)
+        const container = hasSplitTables ? rightBody : singleBody;
+        container.addEventListener('click', (ev) => {
             const icon = ev.target.closest('.expand-icon');
             if (!icon) return;
             const tr = ev.target.closest('tr');
-            if (tr.classList.contains('group-header')) {
-                const gi = tr.dataset.groupIndex;
-                this._toggleGroup(gi);
-            } else if (tr.classList.contains('level-header')) {
-                const gi = tr.dataset.groupIndex, ni = tr.dataset.levelIndex;
-                this._toggleLevel(gi, ni);
-            }
+            // en split-table, los índices los puedes guardar vía data-* si los necesitas
+            // aquí reuso los que ya tienes:
+            const gi = tr.dataset.groupIndex, ni = tr.dataset.levelIndex;
+            if (tr.querySelector('.col-nivel strong')) this._toggleLevel?.(gi, ni);
+            else this._toggleGroup?.(gi);
             if (this._leftTable && this._rightTable) this.syncRowHeights(this._leftTable, this._rightTable);
         });
     }
+
 
 
     /* =================== EXPAND/CONTRACT =================== */
