@@ -1,7 +1,9 @@
 D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmartFinance\src\DataSmart.API\wwwroot\index.html
 D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmartFinance\src\DataSmart.API\wwwroot\js\modules\estado-resultados.js
+D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmartFinance\src\DataSmart.API\wwwroot\css\data-smart-finance.css
 D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmartFinance\src\DataSmart.API\wwwroot\oldestado-resultados.html
 D:\00-OneDrive\OneDrive\00-DATASMART EXPRESS\Visual Studio\DataSmartFinance\src\DataSmart.API\wwwroot\js\app.js
+wwwroot\css\data-smart-finance.css
 wwwroot\index.html
 wwwroot\js\app.js
 wwwroot\js\modules\estado-resultados.js

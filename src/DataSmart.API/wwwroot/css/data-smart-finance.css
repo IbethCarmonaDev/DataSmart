@@ -1,0 +1,350 @@
+﻿/* ============= DataSmart Finance – estilos base + tema corporate ============= */
+
+/* Reset suave */
+:root {
+    --ds-radius: 8px;
+    --ds-shadow: 0 2px 10px rgba(0,0,0,.06);
+    /* Paleta base (fallback) */
+    --bg: #f4f6f9;
+    --surface: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --primary: #2563eb; /* azul DS */
+    --primary-700: #1d4ed8;
+    --primary-50: #eff6ff;
+    --accent: #06b6d4; /* cyan */
+    --success: #0ea5a3; /* teal */
+    --danger: #ef4444; /* rojo */
+
+    --line: #e5e7eb;
+    --chip: #f1f5f9;
+    /* sidebar */
+    --sidebar-bg: #0f172a; /* slate-900 */
+    --sidebar-text: #cbd5e1; /* slate-300 */
+    --sidebar-active: #1e293b; /* slate-800 */
+}
+
+/* Tema CORPORATE (por defecto) */
+[data-theme="corporate"] {
+    --bg: #f6f8fc;
+    --surface: #ffffff;
+    --text: #0f172a;
+    --muted: #475569;
+    --primary: #2563eb;
+    --primary-700: #1d4ed8;
+    --primary-50: #eef2ff;
+    --accent: #0ea5e9;
+    --success: #059669;
+    --danger: #dc2626;
+    --line: #e2e8f0;
+    --chip: #f1f5f9;
+    --sidebar-bg: #0b1220;
+    --sidebar-text: #cdd7e1;
+    --sidebar-active: #131c2d;
+}
+
+/* Layout general */
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    color: var(--text);
+    background: var(--bg);
+}
+
+.app-container {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    background: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    padding: 16px 12px;
+}
+
+.logo {
+    padding: 8px 8px 16px;
+}
+
+.logo-text {
+    margin: 0;
+    font-size: 20px;
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: .3px;
+}
+
+    .logo-text span {
+        color: var(--accent);
+    }
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--sidebar-text);
+}
+
+    .nav-item:hover {
+        background: rgba(255,255,255,.06);
+    }
+
+    .nav-item.active {
+        background: var(--sidebar-active);
+        color: #fff;
+    }
+
+    .nav-item .nav-text {
+        font-size: 14px;
+    }
+
+/* Main */
+.main-content {
+    background: var(--bg);
+    padding: 20px 24px;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.page-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.header-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.filter-select, .btn-secondary, .upload-btn, .file-label, .tab-button, .table-controls button {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background: var(--primary-50);
+    border-color: var(--primary-50);
+    color: var(--primary-700);
+}
+
+    .btn-secondary:hover {
+        filter: brightness(.98);
+    }
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-info {
+    text-align: right;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.user-name {
+    font-weight: 700;
+    color: var(--text);
+}
+
+/* Módulos */
+.module-container {
+    display: none;
+}
+
+    .module-container.active {
+        display: block;
+    }
+
+.module-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.tab-button {
+    background: var(--chip);
+}
+
+    .tab-button.active {
+        background: var(--primary);
+        color: #fff;
+        border-color: transparent;
+    }
+
+/* Controles tabla */
+.table-controls {
+    display: flex;
+    gap: 8px;
+    margin: 10px 0 8px;
+}
+
+/* Tabla financiera (ambas: original y split) */
+.financial-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: var(--ds-shadow);
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 13px;
+}
+
+    .financial-table thead th {
+        position: sticky;
+        top: 0;
+        background: #fff;
+        z-index: 2;
+        text-align: left;
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--line);
+        font-weight: 700;
+        color: var(--muted);
+    }
+
+    .financial-table tbody td {
+        padding: 9px 12px;
+        border-bottom: 1px solid var(--line);
+        white-space: nowrap;
+    }
+
+.col-grupo {
+    width: 240px;
+    font-weight: 700;
+}
+
+.col-nivel {
+    width: 220px;
+}
+
+.col-cuenta {
+    width: 380px;
+}
+
+.positive {
+    color: var(--success);
+    font-weight: 700;
+}
+
+.negative {
+    color: var(--danger);
+    font-weight: 700;
+}
+
+/* Filas destacadas */
+.row-total-grupo td {
+    background: #f5faff; /* sutil azulado */
+    font-weight: 800;
+    border-top: 2px solid var(--primary-50);
+}
+
+.row-total-nivel td {
+    background: #fafafa;
+    font-weight: 700;
+}
+
+/* Vista dividida Anual */
+.anual-grid {
+    display: grid;
+    grid-template-columns: 840px 1fr; /* 3 columnas congeladas ~ 840px */
+    gap: 0;
+}
+
+.anual-freeze-left {
+    overflow: hidden;
+}
+
+.anual-scroll-right {
+    overflow: auto;
+}
+
+.anual-scroll-inner {
+    min-width: max-content;
+}
+
+/* Loading / errores */
+.loading {
+    display: none;
+    text-align: center;
+    padding: 30px;
+    margin: 12px 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+}
+
+.error, .error-message {
+    color: #b91c1c;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin: 8px 0;
+}
+
+/* Uploader (inicio) resumido para que no se rompa el layout */
+.upload-container {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: var(--ds-shadow);
+}
+
+.file-input {
+    display: none;
+}
+
+.file-label, .upload-btn {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+}
+
+    .file-label:hover, .upload-btn:hover {
+        filter: brightness(.95);
+    }
+
+.selected-file {
+    color: var(--muted);
+    margin-top: 6px;
+}
+
+/* Pequeños helpers */
+.expand-icon {
+    margin-right: 6px;
+    color: var(--muted);
+}

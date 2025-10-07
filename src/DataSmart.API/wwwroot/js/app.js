@@ -569,6 +569,8 @@ class DataSmartApp {
 // Inicializar la aplicación cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
     console.log('✅ DOM cargado, iniciando DataSmartApp...');
+    const saved = localStorage.getItem('ds_theme') || 'corporate';
+    document.body.setAttribute('data-theme', saved);
     window.dataSmartApp = new DataSmartApp();
 });
 
@@ -590,3 +592,44 @@ DataSmartApp.prototype.switchTab = function (tabName) {
     console.log('currentModule:', this.currentModule);
     return originalSwitchTab.call(this, tabName);
 };
+
+
+
+<script>
+  // ============ THEME ENGINE (simple, con localStorage) ============
+    function setTheme(name) {
+    const html = document.documentElement;
+    if (!name || name === 'light') html.removeAttribute('data-theme');
+    else html.setAttribute('data-theme', name);
+    try {localStorage.setItem('ds.theme', name || 'light'); } catch (e) { }
+  }
+
+    (function initTheme() {
+        let saved = 'light';
+    try {saved = localStorage.getItem('ds.theme') || 'light'; } catch (e) { }
+    setTheme(saved);
+    const sel = document.getElementById('theme-select');
+    if (sel) sel.value = saved;
+  })();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const sel = document.getElementById('theme-select');
+    const saveBtn = document.getElementById('save-theme');
+    const badge = document.getElementById('theme-status');
+
+    if (sel) {
+        // vista previa inmediata
+        sel.addEventListener('change', (e) => setTheme(e.target.value));
+    }
+    if (saveBtn) {
+        saveBtn.addEventListener('click', async () => {
+            // Si luego quieres persistir al backend, descomenta este fetch:
+            // await fetch(`/api/Users/preferences/theme?userId=${encodeURIComponent(window.app?.userId || '')}`, {
+            //   method: 'POST', headers: { 'Content-Type': 'application/json' },
+            //   body: JSON.stringify({ theme: document.getElementById('theme-select')?.value || 'light' })
+            // });
+            if (badge) { badge.style.display = 'inline-block'; setTimeout(() => badge.style.display = 'none', 1200); }
+        });
+    }
+  });
+</script>
