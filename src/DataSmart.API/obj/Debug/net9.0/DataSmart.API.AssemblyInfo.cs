@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DataSmart.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+71710a38476d9a8174402a3d9cdb55e98809a726")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8f0c199ebf1ec6cc567580624f41b1148f24fa6b")]
 [assembly: System.Reflection.AssemblyProductAttribute("DataSmart.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DataSmart.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

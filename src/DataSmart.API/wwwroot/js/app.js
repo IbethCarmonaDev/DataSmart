@@ -566,13 +566,69 @@ class DataSmartApp {
 
 
 
+// ============ THEME MANAGER ============
+
+const Theme = {
+    KEY: 'ds_theme',
+    get() { try { return (localStorage.getItem(this.KEY) || 'blue').toLowerCase(); } catch { return 'blue'; } },
+    apply(name) {
+        const v = (name || 'blue').toLowerCase();
+        // APLICAR EN <html> PARA QUE TODO HEREDÉ (más robusto que <body>)
+        document.documentElement.setAttribute('data-theme', v);
+        try { localStorage.setItem(this.KEY, v); } catch { }
+        this.syncUI(v);
+        // Debug rápido: verifica que realmente cambian las variables
+        const pr = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
+        console.log('🎨 Tema aplicado:', v, '— --primary =', pr);
+    },
+    syncUI(name) {
+        ['theme-switch', 'theme-select'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el && el.value !== name) el.value = name;
+        });
+    },
+    bindUI() {
+        const onChange = (e) => this.apply((e.target.value || '').toLowerCase());
+        ['theme-switch', 'theme-select'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('change', onChange);
+        });
+        const saveBtn = document.getElementById('save-theme');
+        const badge = document.getElementById('theme-status');
+        if (saveBtn) {
+            saveBtn.addEventListener('click', () => {
+                try { localStorage.setItem(this.KEY, this.get()); } catch { }
+                if (badge) { badge.style.display = 'inline-block'; setTimeout(() => badge.style.display = 'none', 1200); }
+            });
+        }
+    },
+    init() {
+        this.apply(this.get());
+        this.bindUI();
+    }
+};
+
+window.Theme = Theme;
+
 // Inicializar la aplicación cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
     console.log('✅ DOM cargado, iniciando DataSmartApp...');
-    const saved = localStorage.getItem('ds_theme') || 'corporate';
-    document.body.setAttribute('data-theme', saved);
+    //const saved = localStorage.getItem('ds_theme') || 'corporate';
+    //document.body.setAttribute('data-theme', saved);
+    Theme.init();               
     window.dataSmartApp = new DataSmartApp();
+
+
 });
+
+document.addEventListener('change', (e) => {
+    const id = e.target && e.target.id;
+    if (id === 'theme-switch' || id === 'theme-select') {
+        Theme.apply(e.target.value);
+        document.dispatchEvent(new CustomEvent('ds:theme-change', { detail: { theme: e.target.value } }));
+    }
+});
+
 
 
 console.log('🔧 Configurando debug para tabs...');
@@ -595,41 +651,3 @@ DataSmartApp.prototype.switchTab = function (tabName) {
 
 
 
-<script>
-  // ============ THEME ENGINE (simple, con localStorage) ============
-    function setTheme(name) {
-    const html = document.documentElement;
-    if (!name || name === 'light') html.removeAttribute('data-theme');
-    else html.setAttribute('data-theme', name);
-    try {localStorage.setItem('ds.theme', name || 'light'); } catch (e) { }
-  }
-
-    (function initTheme() {
-        let saved = 'light';
-    try {saved = localStorage.getItem('ds.theme') || 'light'; } catch (e) { }
-    setTheme(saved);
-    const sel = document.getElementById('theme-select');
-    if (sel) sel.value = saved;
-  })();
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const sel = document.getElementById('theme-select');
-    const saveBtn = document.getElementById('save-theme');
-    const badge = document.getElementById('theme-status');
-
-    if (sel) {
-        // vista previa inmediata
-        sel.addEventListener('change', (e) => setTheme(e.target.value));
-    }
-    if (saveBtn) {
-        saveBtn.addEventListener('click', async () => {
-            // Si luego quieres persistir al backend, descomenta este fetch:
-            // await fetch(`/api/Users/preferences/theme?userId=${encodeURIComponent(window.app?.userId || '')}`, {
-            //   method: 'POST', headers: { 'Content-Type': 'application/json' },
-            //   body: JSON.stringify({ theme: document.getElementById('theme-select')?.value || 'light' })
-            // });
-            if (badge) { badge.style.display = 'inline-block'; setTimeout(() => badge.style.display = 'none', 1200); }
-        });
-    }
-  });
-</script>
